@@ -34,6 +34,15 @@ export default function MainComponents() {
         <Col xs={6} md={4}>
           <Image src={MyImage} thumbnail />
         </Col>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/6zcuY7cjVdc"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
         <br />
         <h1>어떤 내용들2</h1>
         <p>

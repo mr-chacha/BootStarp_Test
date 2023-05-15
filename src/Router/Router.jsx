@@ -19,6 +19,9 @@ import SolutionComponents from "../Nav/Solution/SolutionComponents";
 import CompanyComponents from "../Nav/Company/CompanyComponents";
 import NavComponents from "../Nav/NavComponents";
 import FooterComponents from "../Footer/FooterComponents";
+import ContactComponents from "../Nav/Contact/ContactComponents";
+import { styled } from "styled-components";
+
 export default function AppRouter() {
   //width 값
   const [width, setWidth] = useState(window.innerWidth);
@@ -34,17 +37,38 @@ export default function AppRouter() {
   // 더보기 버튼
   const moreClick = () => [setMore(more + 6)];
   return (
-    <div>
+    <Layout>
       <Router>
         <NavComponents />
-        <Routes>
-          <Route path="/" element={<MainComponents />} />
-          <Route path="/product" element={<ProductsComponents />} />
-          <Route path="/solution" element={<SolutionComponents />} />
-          <Route path="/company" element={<CompanyComponents />} />
-        </Routes>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "90%",
+            }}
+          >
+            <Routes>
+              <Route path="/" element={<MainComponents />} />
+              <Route path="/product" element={<ProductsComponents />} />
+              <Route path="/solution" element={<SolutionComponents />} />
+              <Route path="/company" element={<CompanyComponents />} />
+              <Route path="/contact" element={<ContactComponents />} />
+            </Routes>
+          </div>
+        </div>
         <FooterComponents />
       </Router>
-    </div>
+    </Layout>
   );
 }
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 1920px;
+`;
