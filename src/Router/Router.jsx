@@ -25,6 +25,7 @@ export default function Router() {
     };
   }, []);
   const [more, setMore] = useState(12);
+  // 더보기 버튼
   const moreClick = () => [setMore(more + 6)];
   return (
     <div>
