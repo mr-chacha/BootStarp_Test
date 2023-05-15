@@ -1,7 +1,13 @@
-import "./App.css";
+import React from "react";
 
-function App() {
-  return <div>test</div>;
+import { Button } from "react-bootstrap";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import Router from "./Router/Router";
+export default function App() {
+  return (
+    <>
+      <Router />
+    </>
+  );
 }
-
-export default App;
