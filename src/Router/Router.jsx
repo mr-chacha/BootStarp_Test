@@ -12,8 +12,14 @@ import {
   Row,
 } from "react-bootstrap";
 import MyImage from "../Image/1.jpeg";
-
-export default function Router() {
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import MainComponents from "../Main/MainComponents";
+import ProductsComponents from "../Nav/Product/ProductsComponents";
+import SolutionComponents from "../Nav/Solution/SolutionComponents";
+import CompanyComponents from "../Nav/Company/CompanyComponents";
+import NavComponents from "../Nav/NavComponents";
+import FooterComponents from "../Footer/FooterComponents";
+export default function AppRouter() {
   //width 값
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -29,83 +35,16 @@ export default function Router() {
   const moreClick = () => [setMore(more + 6)];
   return (
     <div>
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand href="#home">팡고지와이</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#home">솔루션</Nav.Link>
-              <Nav.Link href="#link">프로덕트</Nav.Link>
-              <Nav.Link href="#link">회사소개</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <h1>어떤 내용들</h1>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. In nam animi
-          culpa. Iusto, vel quasi. Fugiat cupiditate quod ducimus, facilis error
-          at sapiente excepturi sequi tempore. Tempore, doloribus aliquam? Iure.
-        </p>
-        <Col xs={6} md={4}>
-          <Image src={MyImage} thumbnail />
-        </Col>
-        <br />
-        <h1>어떤 내용들2</h1>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. In nam animi
-          culpa. Iusto, vel quasi. Fugiat cupiditate quod ducimus, facilis error
-          at sapiente excepturi sequi tempore. Tempore, doloribus aliquam? Iure.
-        </p>
-        <Col xs={6} md={4}>
-          <Image src={MyImage} thumbnail />
-        </Col>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <Container>
-        <Row>
-          <Col>
-            {/* width 값이 760 크면 이미지를 보여줌*/}
-            {width > 760 ? (
-              <Row>
-                {Array.from({ length: more }).map((_, index) => (
-                  <Col xs={6} md={2} key={index}>
-                    <Image src={MyImage} thumbnail />
-                  </Col>
-                ))}
-                {more > 30 ? " " : <button onClick={moreClick}>더보기</button>}
-              </Row>
-            ) : (
-              <Carousel>
-                {/* width 값이 760 보다 작으면 캐러셀로 6개씩 이미지를 보여줌*/}
-                {Array.from({ length: 30 }).map((_, index) => (
-                  <Carousel.Item key={index}>
-                    <Row>
-                      {Array.from({ length: 6 }).map((_, index2) => (
-                        <Col xs={6} md={2.4} key={index2}>
-                          <Image src={MyImage} thumbnail />
-                        </Col>
-                      ))}
-                    </Row>
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            )}
-          </Col>
-        </Row>
-      </Container>
+      <Router>
+        <NavComponents />
+        <Routes>
+          <Route path="/" element={<MainComponents />} />
+          <Route path="/product" element={<ProductsComponents />} />
+          <Route path="/solution" element={<SolutionComponents />} />
+          <Route path="/company" element={<CompanyComponents />} />
+        </Routes>
+        <FooterComponents />
+      </Router>
     </div>
   );
 }
