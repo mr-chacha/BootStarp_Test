@@ -16,7 +16,7 @@ export default function MainComponents() {
   const [more, setMore] = useState(12);
   // 더보기 버튼
   const moreClick = () => [setMore(more + 6)];
-  console.log("width", width);
+
   return (
     <div
       style={{
