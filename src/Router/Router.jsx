@@ -33,9 +33,9 @@ export default function AppRouter() {
       window.removeEventListener("resize", () => setWidth(window.innerWidth));
     };
   }, []);
-  const [more, setMore] = useState(12);
+
   // 더보기 버튼
-  const moreClick = () => [setMore(more + 6)];
+
   return (
     <Layout>
       <Router>
@@ -50,6 +50,7 @@ export default function AppRouter() {
           <div
             style={{
               width: "90%",
+              paddingTop: "50px",
             }}
           >
             <Routes>
@@ -70,5 +71,7 @@ export default function AppRouter() {
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   max-width: 1920px;
+  padding: 0px 20px;
 `;

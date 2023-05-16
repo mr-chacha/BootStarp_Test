@@ -14,7 +14,11 @@ import {
 import { Link } from "react-router-dom";
 export default function NavComponents() {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar
+      bg="light"
+      expand="lg"
+      style={{ position: "fixed", top: 0, left: 0, right: 0 }}
+    >
       <Container
         style={{
           display: "flex",
