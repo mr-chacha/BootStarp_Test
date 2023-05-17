@@ -1,0 +1,76 @@
+@font-face {
+  font-family: "SpoqaHanSansNeo-Regular";
+  src: url("../public//font//SpoqaHanSansNeo-Regular.woff") format("woff");
+}
+p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.navlink-font {
+  font: 18px/22.4px SpoqaHanSansNeo-Regular;
+  letter-spacing: 0.35px;
+  color: #1a1616;
+}
+.button-font {
+  font: 16px/22.4px SpoqaHanSansNeo-Regular;
+  letter-spacing: 0.31px;
+  color: #1a1616;
+}
+.login-button-background {
+  display: inline-block;
+  height: 40px;
+  line-height: 36px;
+  text-align: center;
+  border-radius: 5px;
+  border: 2px solid #1a1616;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  margin-right: 20px;
+}
+.button-background {
+  display: inline-block;
+  height: 40px;
+  line-height: 50px;
+  color: white;
+  text-align: center;
+  background: linear-gradient(316deg, #ffec84 0%, #ff4c17 100%);
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+}
+.title {
+  font: 48px/67.2px SpoqaHanSansNeo-Regular;
+  letter-spacing: 2.76px;
+  color: #1a1616;
+}
+.head {
+  font: 36px/50.4px SpoqaHanSansNeo-Regular;
+  letter-spacing: 1.56px;
+  color: #1a1616;
+}
+.head-body {
+  font: 24px/33.6px SpoqaHanSansNeo-Regular;
+  letter-spacing: 0.69px;
+  color: #302b29;
+}
+.emphasis-text {
+  color: #ff4c17;
+  position: relative;
+}
+.emphasis-dot::before {
+  content: "\A";
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: #ff4c17;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}

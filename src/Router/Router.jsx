@@ -40,27 +40,14 @@ export default function AppRouter() {
     <Layout>
       <Router>
         <NavComponents />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "90%",
-              paddingTop: "50px",
-            }}
-          >
-            <Routes>
-              <Route path="/" element={<MainComponents />} />
-              <Route path="/product" element={<ProductsComponents />} />
-              <Route path="/solution" element={<SolutionComponents />} />
-              <Route path="/company" element={<CompanyComponents />} />
-              <Route path="/contact" element={<ContactComponents />} />
-            </Routes>
-          </div>
+        <div style={{ marginTop: "100px" }}>
+          <Routes>
+            <Route path="/" element={<MainComponents />} />
+            <Route path="/product" element={<ProductsComponents />} />
+            <Route path="/solution" element={<SolutionComponents />} />
+            <Route path="/company" element={<CompanyComponents />} />
+            <Route path="/contact" element={<ContactComponents />} />
+          </Routes>
         </div>
         <FooterComponents />
       </Router>
@@ -72,6 +59,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 1920px;
+
   padding: 0px 20px;
 `;
