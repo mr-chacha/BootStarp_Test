@@ -352,3 +352,13 @@ p {
     margin: 10px 0px 20px 0px;
   }
 }
+.ColImg {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+.Rowdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

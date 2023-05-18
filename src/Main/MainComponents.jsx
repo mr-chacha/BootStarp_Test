@@ -6,11 +6,11 @@ import Typewriter from "typewriter-effect/dist/core";
 import Image1 from "../img/icon_google_partner.png";
 import Image2 from "../img/icon_targeting.png";
 import Image3 from "../img/icon_time_saving.png";
+import MainImage from "./Components/MainImage";
 
 export default function MainComponents() {
   //width 값
   const [width, setWidth] = useState(window.innerWidth);
-
   // width 값이 변할때마다 바로 캐치하게함
   useEffect(() => {
     window.addEventListener("resize", () => setWidth(window.innerWidth));
@@ -47,6 +47,201 @@ export default function MainComponents() {
       typewriter.stop();
     };
   }, []);
+
+  //폴더내에 이미지 전부 저장해놓음
+  const file = [
+    "01.png",
+    "01.svg",
+    "02.png",
+    "02.svg",
+    "03.png",
+    "03.svg",
+    "04.png",
+    "04.svg",
+    "05.png",
+    "05.svg",
+    "06.png",
+    "06.svg",
+    "07.png",
+    "07.svg",
+    "08.png",
+    "08.svg",
+    "2022_1.png",
+    "2022_2.png",
+    "campaign-1-1.png",
+    "campaign-1-2.png",
+    "campaign-1-3.png",
+    "campaign-2-1.png",
+    "campaign-2-2.png",
+    "challenge.png",
+    "client_1.png",
+    "client_2.png",
+    "client_3.png",
+    "client_4.png",
+    "client_5.png",
+    "client_6.png",
+    "client_7.png",
+    "client_8.png",
+    "client_9.png",
+    "client_10.png",
+    "client_11.png",
+    "client_12.png",
+    "client_13.png",
+    "client_14.png",
+    "client_15.png",
+    "client_16.png",
+    "client_17.png",
+    "client_18.png",
+    "client_19.png",
+    "client_20.png",
+    "client_21.png",
+    "client_22.png",
+    "client_23.png",
+    "client_24.png",
+    "client_25.png",
+    "client_26.png",
+    "client_27.png",
+    "client_28.png",
+    "client_29.png",
+    "client_30.png",
+    "client_31.png",
+    "client_32.png",
+    "client_33.png",
+    "client_34.png",
+    "client_35.png",
+    "client_36.png",
+    "client_37.png",
+    "client_38.png",
+    "client_39.png",
+    "client_40.png",
+    "client_41.png",
+    "client_42.png",
+    "client_43.png",
+    "client_44.png",
+    "client_45.png",
+    "client_46.png",
+    "client_47.png",
+    "client_48.png",
+    "client_49.png",
+    "client_50.png",
+    "client_51.png",
+    "client_52.png",
+    "client_53.png",
+    "client_54.png",
+    "client_55.png",
+    "client_56.png",
+    "client_57.png",
+    "client_58.png",
+    "client_59.png",
+    "client_60.png",
+    "communication.png",
+    "dashboard-1-1.png",
+    "dashboard-1-2.png",
+    "dashboard-1-3.png",
+    "dashboard-2-1.png",
+    "dashboard-2-2.png",
+    "favicon.png",
+    "icon_google_partner.png",
+    "icon_targeting.png",
+    "icon_time_saving.png",
+    "location.png",
+    "logo.png",
+    "mo_client_01.png",
+    "mo_client_02.png",
+    "mo_client_03.png",
+    "mo_client_04.png",
+    "mo_client_05.png",
+    "mo_client_06.png",
+    "mo_client_07.png",
+    "mo_client_08.png",
+    "mo_client_09.png",
+    "mo_client_10.png",
+    "mo_client_11.png",
+    "mo_client_12.png",
+    "mo_client_13.png",
+    "mo_client_14.png",
+    "mo_client_15.png",
+    "mo_client_16.png",
+    "mo_client_17.png",
+    "mo_client_18.png",
+    "mo_client_19.png",
+    "mo_client_20.png",
+    "mo_client_21.png",
+    "mo_client_22.png",
+    "mo_client_23.png",
+    "mo_client_24.png",
+    "mo_client_25.png",
+    "mo_client_26.png",
+    "mo_client_27.png",
+    "mo_client_28.png",
+    "mo_client_29.png",
+    "mo_client_30.png",
+    "mo_client_31.png",
+    "mo_client_32.png",
+    "mo_client_33.png",
+    "mo_client_34.png",
+    "mo_client_35.png",
+    "mo_client_36.png",
+    "mo_client_37.png",
+    "mo_client_38.png",
+    "mo_client_39.png",
+    "mo_client_40.png",
+    "mo_client_41.png",
+    "mo_client_42.png",
+    "mo_client_43.png",
+    "mo_client_44.png",
+    "mo_client_45.png",
+    "mo_client_46.png",
+    "mo_client_47.png",
+    "mo_client_48.png",
+    "mo_client_49.png",
+    "mo_client_50.png",
+    "mo_client_51.png",
+    "mo_client_52.png",
+    "mo_client_53.png",
+    "mo_client_54.png",
+    "mo_client_55.png",
+    "mo_client_56.png",
+    "mo_client_57.png",
+    "mo_client_58.png",
+    "mo_client_59.png",
+    "mo_client_60.png",
+    "mo_partner_01.png",
+    "mo_partner_02.png",
+    "mo_partner_03.png",
+    "mo_partner_04.png",
+    "mo_partner_05.png",
+    "mo_SNS_blog.png",
+    "mo_SNS_facebook.png",
+    "mo_SNS_youtube.png",
+    "og_image.png",
+    "partner1_pacemaker.png",
+    "partner2_kmong.png",
+    "partner3_lab543.png",
+    "partner4_ably.png",
+    "partner5_tmb.png",
+    "recruit.png",
+    "report-1.png",
+    "report-2.png",
+    "report-3.png",
+    "responsibility.png",
+    "SNS_01.png",
+    "SNS_02.png",
+    "SNS_03.png",
+    "solution-1.png",
+    "solution-2.png",
+    "solution-3.png",
+    "solution-4.png",
+    "solution-5.png",
+    "solution-6.png",
+    "solution-off-1.png",
+    "solution-off-2.png",
+    "solution-off-3.png",
+    "solution-off-4.png",
+    "solution-off-5.png",
+    "solution-off-6.png",
+  ];
+
   return (
     <div className="mainLayot">
       {width < 768 ? (
@@ -248,7 +443,111 @@ export default function MainComponents() {
         </div>
       )}
 
-      {/*이미지 넣는곳 */}
+      {/*이미지 넣는곳 아래꺼 활용할거*/}
+      {/* {file.map((item) => {
+        return (
+          <>
+            <img src={require(`../img/${item}`)} alt="Icon: Time Saving" />;
+          </>
+        );
+      })} */}
+
+      <Container>
+        <Row>
+          <Col>
+            {/* width 값이 760 크면 이미지를 보여줌*/}
+            {width > 760 ? (
+              <>
+                <Row className="Rowdiv">
+                  <Col xs={6} md={4} lg={2} className="ColImg">
+                    <img
+                      src={require("../img/mo_client_01.png")}
+                      alt="팡고 클라이언트 일동제약"
+                    />
+                  </Col>
+                  <Col xs={6} md={4} lg={2} className="ColImg">
+                    <img
+                      src={require("../img/mo_client_02.png")}
+                      alt="팡고 클라이언트 일동제약"
+                    />
+                  </Col>
+                  <Col xs={6} md={4} lg={2} className="ColImg">
+                    <img
+                      src={require("../img/mo_client_03.png")}
+                      alt="팡고 클라이언트 오피스넥스"
+                    />
+                  </Col>
+                  <Col xs={6} md={4} lg={2} className="ColImg">
+                    <img
+                      src={require("../img/mo_client_04.png")}
+                      alt="팡고 클라이언트 미래에셋대우"
+                    />
+                  </Col>
+                  <Col xs={6} md={4} lg={2} className="ColImg">
+                    <img
+                      src={require("../img/mo_client_05.png")}
+                      alt="팡고 클라이언트 라비앙"
+                    />
+                  </Col>
+                </Row>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "50px",
+                  }}
+                >
+                  {more > 30 ? (
+                    " "
+                  ) : (
+                    <button onClick={moreClick}>더보기</button>
+                  )}
+                </div>
+              </>
+            ) : (
+              <Carousel>
+                {/* width 값이 760 보다 작으면 캐러셀로 6개씩 이미지를 보여줌*/}
+                {Array.from({ length: 30 }).map((_, index) => (
+                  <Carousel.Item key={index}>
+                    <Row className="Rowdiv">
+                      <Col className="ColImg">
+                        <img
+                          src={require("../img/mo_client_01.png")}
+                          alt="팡고 클라이언트 일동제약"
+                        />
+                      </Col>
+                      <Col className="ColImg">
+                        <img
+                          src={require("../img/mo_client_02.png")}
+                          alt="팡고 클라이언트 일동제약"
+                        />
+                      </Col>
+                      <Col className="ColImg">
+                        <img
+                          src={require("../img/mo_client_03.png")}
+                          alt="팡고 클라이언트 오피스넥스"
+                        />
+                      </Col>
+                      <Col className="ColImg">
+                        <img
+                          src={require("../img/mo_client_04.png")}
+                          alt="팡고 클라이언트 미래에셋대우"
+                        />
+                      </Col>
+                      <Col className="ColImg">
+                        <img
+                          src={require("../img/mo_client_05.png")}
+                          alt="팡고 클라이언트 라비앙"
+                        />
+                      </Col>
+                    </Row>
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            )}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
