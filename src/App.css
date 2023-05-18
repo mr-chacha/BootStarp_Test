@@ -1,38 +1,364 @@
-.App {
+@font-face {
+  font-family: "SpoqaHanSansNeo-Regular";
+  src: url("../public//font//SpoqaHanSansNeo-Regular.woff") format("woff");
+}
+p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.navlink-font {
+  font: 18px/22.4px SpoqaHanSansNeo-Regular;
+  letter-spacing: 0.35px;
+  color: #1a1616;
+}
+.button-font {
+  font: 16px/22.4px SpoqaHanSansNeo-Regular;
+  letter-spacing: 0.31px;
+  color: #1a1616;
+}
+.login-button-background {
+  display: inline-block;
+  height: 40px;
+  line-height: 36px;
   text-align: center;
+  border-radius: 5px;
+  border: 2px solid #1a1616;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  margin-right: 20px;
+}
+.button-background {
+  display: inline-block;
+  height: 40px;
+  line-height: 50px;
+  color: white;
+  text-align: center;
+  background: linear-gradient(316deg, #ffec84 0%, #ff4c17 100%);
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.head {
+  font: 36px/50.4px SpoqaHanSansNeo-Regular;
+  letter-spacing: 1.56px;
+  color: #1a1616;
+}
+.head-body {
+  font: 24px/33.6px SpoqaHanSansNeo-Regular;
+  letter-spacing: 0.69px;
+  color: #302b29;
+}
+.emphasis-text {
+  color: #ff4c17;
+  position: relative;
+}
+.emphasis-dot::before {
+  content: "\A";
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: #ff4c17;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.test {
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.testfont {
+  @media (min-width: 1024px) {
+    background-color: pink;
+  }
+  @media (max-width: 1024px) {
+    background-color: #ff4c17;
+  }
+  @media (max-width: 768px) {
+    background-color: blue;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.mainLayot {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  max-width: 100%;
+  @media (min-width: 1024px) {
+    padding: 60px 0px;
+  }
+  @media (max-width: 1024px) {
+    padding: 40px 0px;
+  }
+  @media (max-width: 768px) {
+    padding: 20px 0px;
+  }
+}
+.textdiv {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.texttitle {
+  color: #ff4c17;
+  @media (min-width: 1024px) {
+    font: 50px SpoqaHanSansNeo-Regular;
+    letter-spacing: 2.76px;
+    color: #1a1616;
+    display: flex;
+    font-weight: bold;
+  }
+  @media (max-width: 1024px) {
+    font: 45px SpoqaHanSansNeo-Regular;
+    letter-spacing: 2.76px;
+    color: #1a1616;
+    display: flex;
+    font-weight: bold;
+  }
+  @media (max-width: 768px) {
+    font: 48px SpoqaHanSansNeo-Regular;
+    letter-spacing: 2.76px;
+    color: #1a1616;
+    display: flex;
+    font-weight: bold;
+  }
+}
+
+.texttitle2 {
+  @media (min-width: 1024px) {
+    font: 35px SpoqaHanSansNeo-Regular;
+    display: flex;
+
+    font-weight: bold;
+    letter-spacing: 1.56px;
+    color: #1a1616;
+  }
+  @media (max-width: 1024px) {
+    font: 30px SpoqaHanSansNeo-Regular;
+    display: flex;
+
+    font-weight: bold;
+    letter-spacing: 1.56px;
+    color: #1a1616;
+  }
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    font: 25px SpoqaHanSansNeo-Regular;
+
+    font-weight: bold;
+    letter-spacing: 1.56px;
+    color: #1a1616;
+  }
+}
+
+.texttitle3 {
+  @media (min-width: 1024px) {
+    font: 24px SpoqaHanSansNeo-Regular;
+    font-weight: bold;
+    letter-spacing: 0.69px;
+    color: #302b29;
+  }
+  @media (max-width: 1024px) {
+    font: 20px SpoqaHanSansNeo-Regular;
+    font-weight: bold;
+    letter-spacing: 0.69px;
+    color: #302b29;
+  }
+  @media (max-width: 768px) {
+    font: 18px SpoqaHanSansNeo-Regular;
+    font-weight: bold;
+    letter-spacing: 0.69px;
+    color: #302b29;
+  }
+}
+
+.texttitle4 {
+  @media (min-width: 1024px) {
+    font: 24px SpoqaHanSansNeo-Regular;
+    font-weight: bold;
+    letter-spacing: 0.69px;
+    color: #302b29;
+  }
+  @media (max-width: 1024px) {
+    font: 18px SpoqaHanSansNeo-Regular;
+    font-weight: bold;
+    letter-spacing: 0.69px;
+    color: #302b29;
+  }
+  @media (max-width: 768px) {
+    width: 300px;
+    font: 16px SpoqaHanSansNeo-Regular;
+
+    letter-spacing: 0.69px;
+    color: #302b29;
+    margin-bottom: 20px;
+  }
+}
+.texttitle5 {
+  text-align: center;
+  @media (min-width: 1024px) {
+    font: 24px SpoqaHanSansNeo-Regular;
+    font-weight: bold;
+    letter-spacing: 0.69px;
+    color: #302b29;
+  }
+  @media (max-width: 1024px) {
+    font: 18px SpoqaHanSansNeo-Regular;
+    font-weight: bold;
+    letter-spacing: 0.69px;
+    color: #302b29;
+  }
+  @media (max-width: 768px) {
+    width: 300px;
+    font: 16px SpoqaHanSansNeo-Regular;
+    letter-spacing: 0.69px;
+    color: #302b29;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+.vedio {
+  @media (min-width: 1024px) {
+    margin-bottom: 50px;
+    margin-top: 50px;
+    border-radius: 10px;
+    width: 1024px;
+    height: 576px;
+  }
+  @media (max-width: 1024px) {
+    margin-bottom: 45px;
+    margin-top: 45px;
+    border-radius: 10px;
+    width: 800px;
+    height: 450px;
+  }
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+    margin-top: 40px;
+    border-radius: 10px;
+    width: 640px;
+    height: 360px;
+  }
+  @media (max-width: 640px) {
+    margin-bottom: 30px;
+    margin-top: 30px;
+
+    border-radius: 10px;
+    width: 380px;
+    height: 210px;
+  }
+}
+.carddiv {
+  @media (min-width: 1024px) {
+    align-items: center;
+    padding: 80px;
+    border-bottom: 0.3px solid gray;
+    display: flex;
+    justify-content: center;
+  }
+  @media (max-width: 1024px) {
+    align-items: center;
+    display: flex;
+    padding: 40px;
+    width: 90%;
+    justify-content: center;
+    border-bottom: 0.3px solid gray;
+  }
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    flex-direction: column-reverse;
+    width: 100%;
+    border-bottom: 0.3px solid gray;
+  }
+}
+
+.carddiv2 {
+  flex-direction: column;
+  @media (min-width: 1024px) {
+    align-items: center;
+    padding: 80px;
+
+    display: flex;
+    justify-content: center;
+  }
+  @media (max-width: 1024px) {
+    align-items: center;
+    display: flex;
+    padding: 40px;
+    width: 90%;
+    justify-content: center;
+  }
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+.cardImg {
+  @media (min-width: 1024px) {
+    margin-right: 75px;
+    max-width: 100%;
+    height: auto;
+  }
+  @media (max-width: 1024px) {
+    margin-right: 50px;
+    width: 150px;
+    height: 150px;
+  }
+  @media (max-width: 768px) {
+    width: 130px;
+    height: 130px;
+    margin: 10px 0px 20px 0px;
+  }
+}
+
+.cardImg2 {
+  @media (min-width: 1024px) {
+    margin-left: 75px;
+    max-width: 100%;
+    height: auto;
+  }
+  @media (max-width: 1024px) {
+    margin-left: 50px;
+    width: 150px;
+    height: 150px;
+  }
+  @media (max-width: 768px) {
+    width: 130px;
+    height: 130px;
+    margin: 10px 0px 20px 0px;
+  }
+}
+.ColImg {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin: 10px;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Rowdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="265" height="265" viewBox="0 0 265 265">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: #191212;
+        font-size: 20px;
+        font-family: AppleSDGothicNeoM00;
+        letter-spacing: -0.018em;
+      }
+
+      .cls-4 {
+        fill: #f6323e;
+      }
+
+      .cls-5 {
+        clip-path: url(#clip-path);
+      }
+    </style>
+    <clipPath id="clip-path">
+      <rect id="사각형_3069" data-name="사각형 3069" class="cls-1" width="60.5" height="76.501" transform="translate(0 0)"/>
+    </clipPath>
+  </defs>
+  <g id="그룹_102" data-name="그룹 102" transform="translate(-1255 -1305)">
+    <rect id="사각형_3034" data-name="사각형 3034" class="cls-2" width="265" height="265" transform="translate(1255 1305)"/>
+    <text id="명절_선물" data-name="명절 선물" class="cls-3" transform="translate(1388 1494)"><tspan x="-36.51" y="0">명절 선물</tspan></text>
+    <g id="그룹_89" data-name="그룹 89" transform="translate(1358 1375)">
+      <rect id="사각형_3068" data-name="사각형 3068" class="cls-4" width="13.816" height="53.772" transform="translate(23.342 21.479)"/>
+      <g id="그룹_88" data-name="그룹 88">
+        <g id="그룹_87" data-name="그룹 87" class="cls-5">
+          <path id="패스_190" data-name="패스 190" d="M59.25,20.229H45.173c5.879-1.863,11.255-5.1,11.255-10.7A9.656,9.656,0,0,0,46.954.009c-9.325-.34-14.533,10.89-16.7,17.142C28.073,10.89,22.857-.361,13.547.009A9.657,9.657,0,0,0,4.072,9.531c0,5.6,5.376,8.835,11.255,10.7H1.25A1.25,1.25,0,0,0,0,21.479v16a1.25,1.25,0,0,0,1.25,1.25H3.719V75.251a1.25,1.25,0,0,0,1.25,1.25H55.531a1.25,1.25,0,0,0,1.25-1.25V38.729H59.25a1.25,1.25,0,0,0,1.25-1.25v-16a1.25,1.25,0,0,0-1.25-1.25m-23.342,16H24.592v-13.5H35.908ZM46.536,2.5c.107,0,.215,0,.323.006a7.166,7.166,0,0,1,7.069,7.024c0,7.427-14.564,10.046-22.006,10.6C33.325,15.475,38,2.5,46.536,2.5M6.572,9.531a7.166,7.166,0,0,1,7.07-7.024c.108,0,.215-.006.322-.006,8.536,0,13.211,12.975,14.614,17.631-7.442-.555-22.006-3.174-22.006-10.6M2.5,22.729H22.092v13.5H2.5Zm3.719,16H22.092V74H6.219Zm18.373,0H35.908V74H24.592ZM54.281,74H38.408V38.729H54.281ZM58,36.229H38.408v-13.5H58Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
