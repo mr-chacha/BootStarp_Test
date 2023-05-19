@@ -362,3 +362,13 @@ p {
   justify-content: center;
   align-items: center;
 }
+
+/* quill css 임*/
+.ql-toolbar.ql-snow .ql-formats {
+  padding-right: 15px;
+  border-right: 0.3px solid gray;
+}
+/* 글작성하는 칸 클래스*/
+.ql-editor {
+  min-height: 1000px;
+}

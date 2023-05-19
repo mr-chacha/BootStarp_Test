@@ -30,6 +30,9 @@ export default function NavComponents() {
               <Link to="/company" className="nav-link">
                 회사소개
               </Link>
+              <Link to="/post" className="nav-link">
+                공지사항
+              </Link>
             </Navbar.Collapse>
           </div>
 

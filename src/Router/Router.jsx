@@ -21,6 +21,10 @@ import NavComponents from "../Nav/NavComponents";
 import FooterComponents from "../Footer/FooterComponents";
 import ContactComponents from "../Nav/Contact/ContactComponents";
 import { styled } from "styled-components";
+import Post from "../Nav/Post/Post";
+import PostAdd from "../Nav/Post/PostAdd";
+import PostEdit from "../Nav/Post/PostEdit";
+import PostDetail from "../Nav/Post/PostDetail";
 
 export default function AppRouter() {
   //width 값
@@ -47,6 +51,10 @@ export default function AppRouter() {
             <Route path="/solution" element={<SolutionComponents />} />
             <Route path="/company" element={<CompanyComponents />} />
             <Route path="/contact" element={<ContactComponents />} />
+            <Route path="/post" element={<Post />} />
+            <Route path="/postadd" element={<PostAdd />} />
+            <Route path="/postedit/:id" element={<PostEdit />} />
+            <Route path="/postdetail/:id" element={<PostDetail />} />
           </Routes>
         </div>
         <FooterComponents />
