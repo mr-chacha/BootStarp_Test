@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import "../../App.css";
+
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 export default function PostAdd() {
   // Quill 글작성 에디터
-
   const modules = {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }], // 글씨 폰트 크기 옵션
@@ -27,6 +26,7 @@ export default function PostAdd() {
     },
   };
 
+  //게시글 등록
   const [title, setTitle] = useState("");
   const handleTitleChange = (value) => {
     setTitle(value);
