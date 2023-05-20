@@ -60,15 +60,23 @@ export default function PostAdd() {
   return (
     <div>
       <h1>글작성 페이지</h1>
-      <div>
-        <ReactQuill
-          value={title}
-          onChange={handleTitleChange}
-          modules={modules}
-        />
-      </div>
-      <button onClick={handlePost}> 글 등록</button>
-      <button>취소</button>
+
+      <from>
+        <div style={{ display: "flex" }}>
+          <h2 style={{ marginRight: "20px" }}>제목 : </h2>
+
+          <input placeholder="제목을 입력해주세요" />
+        </div>
+        <div>
+          <ReactQuill
+            value={title}
+            onChange={handleTitleChange}
+            modules={modules}
+          />
+        </div>
+        <button onClick={handlePost}> 글 등록</button>
+        <button>취소</button>
+      </from>
     </div>
   );
 }
