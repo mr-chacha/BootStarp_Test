@@ -21,7 +21,11 @@ import NavComponents from "../Nav/NavComponents";
 import FooterComponents from "../Footer/FooterComponents";
 import ContactComponents from "../Nav/Contact/ContactComponents";
 import { styled } from "styled-components";
-
+import Post from "../Nav/Post/Post";
+import PostAdd from "../Nav/Post/PostAdd";
+import PostEdit from "../Nav/Post/PostEdit";
+import PostDetail from "../Nav/Post/PostDetail";
+import LoginComponents from "../Login/LoginComponents";
 export default function AppRouter() {
   //width 값
   const [width, setWidth] = useState(window.innerWidth);
@@ -40,27 +44,19 @@ export default function AppRouter() {
     <Layout>
       <Router>
         <NavComponents />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "90%",
-              paddingTop: "50px",
-            }}
-          >
-            <Routes>
-              <Route path="/" element={<MainComponents />} />
-              <Route path="/product" element={<ProductsComponents />} />
-              <Route path="/solution" element={<SolutionComponents />} />
-              <Route path="/company" element={<CompanyComponents />} />
-              <Route path="/contact" element={<ContactComponents />} />
-            </Routes>
-          </div>
+        <div style={{ marginTop: "100px" }}>
+          <Routes>
+            <Route path="/" element={<MainComponents />} />
+            <Route path="/product" element={<ProductsComponents />} />
+            <Route path="/solution" element={<SolutionComponents />} />
+            <Route path="/company" element={<CompanyComponents />} />
+            <Route path="/contact" element={<ContactComponents />} />
+            <Route path="/post" element={<Post />} />
+            <Route path="/postadd" element={<PostAdd />} />
+            <Route path="/postedit/:id" element={<PostEdit />} />
+            <Route path="/postdetail/:id" element={<PostDetail />} />
+            <Route path="/vkdrhfhrmdls/" element={<LoginComponents />} />
+          </Routes>
         </div>
         <FooterComponents />
       </Router>
@@ -72,6 +68,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 1920px;
+
   padding: 0px 20px;
 `;
