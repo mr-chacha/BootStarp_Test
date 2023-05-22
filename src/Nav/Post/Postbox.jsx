@@ -9,16 +9,6 @@ export default function Postbox({ item }) {
     navigate(`/postdetail/${item.id}`);
   };
 
-  //타이틀 분리하는 코드
-  const startTag = '<span class="ql-size-huge">';
-  const endTag = "</span>";
-  const startIndex = item.title.indexOf(startTag);
-  const endIndex = item.title.indexOf(endTag);
-  const filteredText = item.title.substring(
-    startIndex + startTag.length,
-    endIndex
-  );
-
   return (
     <CommentWrap>
       <TableTd Width="50px" Color="fff">
@@ -28,7 +18,7 @@ export default function Postbox({ item }) {
         카테고리
       </TableTd>
       <TableTds Width="450px" Color="fff">
-        <span onClick={navigateTo}>{filteredText}</span>
+        <span onClick={navigateTo}>{item?.title}</span>
         {/* 누적댓글수 */}
         <PostCount>1</PostCount>
         {/* 포스트 작성한지 30분이 지날때면 스타일을 주기 */}

@@ -23,7 +23,7 @@ export default function PostDetail() {
   useEffect(() => {
     handleGet();
   }, []);
-  console.log(post?.title);
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       {/* <div
@@ -31,7 +31,7 @@ export default function PostDetail() {
         dangerouslySetInnerHTML={{ __html: post?.title }}
       ></div> */}
       <ReactQuill
-        value={post?.title}
+        value={post?.contents}
         readOnly={true}
         theme="snow"
         className="quill"
