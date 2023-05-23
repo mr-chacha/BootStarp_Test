@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Form } from "react-bootstrap";
 
 export default function PostAdd() {
-  // Quill 글작성 에디터
+  // Quill 글작성 에디터 옵션
   const modules = {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }], // 글씨 폰트 크기 옵션
@@ -28,69 +28,6 @@ export default function PostAdd() {
     },
   };
 
-  //게시글 등록
-  const [title, setTitle] = useState("");
-  const [contents, setContents] = useState("");
-  const [category, setCategory] = useState("");
-  const [titleImg, setTitleImg] = useState(null);
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleContentsChange = (value) => {
-    setContents(value);
-  };
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setTitleImg(file);
-  };
-
-  // const handlePost = () => {
-  //   const data = {
-  //     id: uuidv4(),
-  //     index: 0,
-  //     category: category,
-  //     title: title,
-  //     titleImg: titleImg,
-  //     contents: contents,
-  //     admin: "팡고",
-  //     date: new Date().toISOString(),
-  //     count: 1,
-  //   };
-  //   if (category === "공지사항") {
-  //     axios
-  //       .post("http://localhost:3001/post", data) // 서버 주소와 엔드포인트에 맞게 수정해주세요
-  //       .then((response) => {
-  //         console.log(response.data); // 성공적으로 등록된 데이터 확인
-  //         // 추가적인 로직 구현
-  //         alert("글등록 성공");
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         // 오류 처리
-  //         alert("글등록 실패");
-  //       });
-  //   }
-  //   if (category === "팡고소식") {
-  //     axios
-  //       .post("http://localhost:3001/news", data) // 서버 주소와 엔드포인트에 맞게 수정해주세요
-  //       .then((response) => {
-  //         console.log(response.data); // 성공적으로 등록된 데이터 확인
-  //         // 추가적인 로직 구현
-  //         alert("글등록 성공");
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         // 오류 처리
-  //         alert("글등록 실패");
-  //       });
-  //   }
-  // };
-
   //이미지 미리보기
   const [fileImage, setFileImage] = useState("");
   const saveFileImage = (event) => {
@@ -102,6 +39,23 @@ export default function PostAdd() {
     setFileImage("");
   };
 
+  //게시글 등록
+  //제목
+  const [title, setTitle] = useState("");
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+  //내용
+  const [contents, setContents] = useState("");
+  const handleContentsChange = (value) => {
+    setContents(value);
+  };
+  //카테고리
+  const [category, setCategory] = useState("");
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
+  //게시글 등록
   const handlePost = () => {
     const data = {
       id: uuidv4(),
@@ -140,7 +94,6 @@ export default function PostAdd() {
         });
     }
   };
-  //
 
   return (
     <div>

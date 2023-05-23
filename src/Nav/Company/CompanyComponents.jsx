@@ -27,7 +27,6 @@ export default function CompanyComponents() {
         return (
           <Card style={{ width: "18rem" }}>
             <Card.Img variant="top" src={news.titleImg} />
-
             <Card.Body>
               <Card.Title>{news?.title}</Card.Title>
               <Card.Text>
