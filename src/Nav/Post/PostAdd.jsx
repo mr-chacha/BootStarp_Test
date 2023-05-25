@@ -215,6 +215,7 @@ export default function PostAdd() {
   return (
     <div>
       <h1>글작성 페이지</h1>
+
       <input
         placeholder="제목을 입력하세요"
         value={title}
@@ -300,6 +301,7 @@ export default function PostAdd() {
       </div>
       <button onClick={handlePost}> 글 등록</button>
       <button>취소</button>
+
     </div>
   );
 }
