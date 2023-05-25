@@ -1,18 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 export default function PostDetail() {
+  const navigate = useNavigate();
+
+  const navigateTo = () => {
+    navigate(`/postedit/${post.id}`);
+  };
+
   // 글 조회하는 함수들
   const [posts, setPosts] = useState([]);
-  const handleGet = async () => {
+  const postGet = async () => {
     try {
       const response = await axios.get("http://localhost:3001/post");
       setPosts(response.data);
     } catch (error) {
       console.error(error);
-      // 오류 처리
     }
   };
 
@@ -21,15 +26,12 @@ export default function PostDetail() {
   const post = posts.find((id) => id.id === param.id);
 
   useEffect(() => {
-    handleGet();
+    postGet();
   }, []);
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      {/* <div
-        className="quill"
-        dangerouslySetInnerHTML={{ __html: post?.title }}
-      ></div> */}
+      <h1> 글제목 :{post?.title}</h1>
       <ReactQuill
         value={post?.contents}
         readOnly={true}
@@ -37,6 +39,8 @@ export default function PostDetail() {
         className="quill"
         modules={{ toolbar: false }} // 툴바 제거
       />
+      <button onClick={navigateTo}>수정</button>
+      <button>삭제</button>
     </div>
   );
 }
