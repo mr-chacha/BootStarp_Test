@@ -25,7 +25,7 @@ import Post from "../Nav/Post/Post";
 import PostAdd from "../Nav/Post/PostAdd";
 import PostEdit from "../Nav/Post/PostEdit";
 import PostDetail from "../Nav/Post/PostDetail";
-
+import LoginComponents from "../Login/LoginComponents";
 export default function AppRouter() {
   //width 값
   const [width, setWidth] = useState(window.innerWidth);
@@ -55,6 +55,7 @@ export default function AppRouter() {
             <Route path="/postadd" element={<PostAdd />} />
             <Route path="/postedit/:id" element={<PostEdit />} />
             <Route path="/postdetail/:id" element={<PostDetail />} />
+            <Route path="/vkdrhfhrmdls/" element={<LoginComponents />} />
           </Routes>
         </div>
         <FooterComponents />
