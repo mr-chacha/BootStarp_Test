@@ -1,4 +1,32 @@
 {
-  "post": []
+  "post": [
+    {
+      "id": "ad087fd4-b23a-4eee-a0b3-d815d782cccc",
+      "index": 0,
+      "category": "공지사항",
+      "title": "공지사항",
+      "titleImg": "",
+      "contents": "<p>공지사항</p><p><br></p><p><img src=\"https://chacha-upload-img.s3.ap-northeast-2.amazonaws.com/218ee3d4-2b05-4315-adb0-3a2e719ba158\"></p>",
+      "admin": "팡고",
+      "date": "2023-05-25T05:22:36.027Z",
+      "count": 1
+    },
+    {
+      "id": "2c898f4d-7071-4226-b2d2-e07795b09eca",
+      "index": 0,
+      "category": "팡고소식",
+      "title": "팡고소식",
+      "titleImg": "https://chacha-upload-img.s3.ap-northeast-2.amazonaws.com/a0a55021-5487-4bcc-896d-023701f949a2",
+      "contents": "<p>팡고소식</p><p><br></p><p><img src=\"https://chacha-upload-img.s3.ap-northeast-2.amazonaws.com/a9d6db2c-5562-4678-8abf-0e3a134f451b\"></p>",
+      "admin": "팡고",
+      "date": "2023-05-25T05:22:58.110Z",
+      "count": 1
+    }
+  ],
+  "admin": [
+    {
+      "id": "pango",
+      "password": "pango1234"
+    }
+  ]
 }
-

@@ -24,7 +24,8 @@ export default function CompanyComponents() {
   useEffect(() => {
     fetchData();
   }, []);
-
+  //로그인 여부 확인
+  const Login = sessionStorage.getItem("admin");
   return (
     <div>
       <h1>팡고소식</h1>
@@ -32,12 +33,13 @@ export default function CompanyComponents() {
         onClick={() => {
           navigate("/postadd");
         }}
+        style={{ display: Login ? "block" : "none" }}
       >
         글작성
       </button>
       {news?.map((news) => {
         return (
-          <Card style={{ width: "18rem" }}>
+          <Card style={{ width: "18rem" }} key={news}>
             <div style={{ border: "1px solid" }}>
               <Card.Img variant="top" src={news?.titleImg} />
             </div>
@@ -48,7 +50,9 @@ export default function CompanyComponents() {
                 onClick={() => {
                   navigate(`/postdetail/${news.id}`);
                 }}
-              ></Button>
+              >
+                팡고 소식 보러가기
+              </Button>
             </Card.Body>
           </Card>
         );

@@ -35,12 +35,15 @@ export default function Post() {
     handleGet();
   }, []);
 
+  //로그인 여부 확인
+  const Login = sessionStorage.getItem("admin");
+
   return (
     <CommunityLayout>
       <h1>공지사항</h1>
       <CommentsWrap>
         <CommunityAddArea>
-          <AddPostBtn>
+          <AddPostBtn style={{ display: Login ? "block" : "none" }}>
             <Link to="/postadd" className="nav-link">
               글작성
             </Link>

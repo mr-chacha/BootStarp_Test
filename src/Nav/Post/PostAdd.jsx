@@ -113,12 +113,12 @@ export default function PostAdd() {
 
   // base64 >> Quill Img Url 로 변경하는 onChange
   const onFileUpload = async (event) => {
-    const ACCESS_KEY = process.env.ACCESS_KEY;
-    const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
-    const REGION = process.env.REGION;
-    const S3_BUCKET = process.env.S3_BUCKET;
+    const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;
+    const REGION = process.env.REACT_APP_REGION;
+    const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
 
-    // AWS ACCESS KEY를 세팅
+    // AWS ACCESS KEY를 세팅ㄴ
     AWS.config.update({
       accessKeyId: ACCESS_KEY,
       secretAccessKey: SECRET_ACCESS_KEY,
@@ -159,12 +159,13 @@ export default function PostAdd() {
         if (err) console.log(err);
       });
   };
+
   // base64 >> Title Img Url 로 변경하는 onChange
   const onTitleImgUpload = async (event) => {
-    const ACCESS_KEY = process.env.ACCESS_KEY;
-    const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
-    const REGION = process.env.REGION;
-    const S3_BUCKET = process.env.S3_BUCKET;
+    const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;
+    const REGION = process.env.REACT_APP_REGION;
+    const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
 
     // AWS ACCESS KEY를 세팅
     AWS.config.update({
@@ -180,6 +181,8 @@ export default function PostAdd() {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("img", file);
+
+    //이미지의 url
 
     // 파일과 파일이름을 넘겨줌
     const params = {
@@ -212,6 +215,8 @@ export default function PostAdd() {
     }
   }, [category]);
 
+  // useEffect(() => {}, [contents]);
+
   return (
     <div>
       <h1>글작성 페이지</h1>
@@ -226,7 +231,7 @@ export default function PostAdd() {
         <p> 카테고리 </p>
         <Form>
           {["radio"].map((type) => (
-            <div className="mb-3">
+            <div className="mb-3" key={type}>
               <Form.Check
                 label={"공지사항"}
                 value={"공지사항"}
@@ -301,7 +306,6 @@ export default function PostAdd() {
       </div>
       <button onClick={handlePost}> 글 등록</button>
       <button>취소</button>
-
     </div>
   );
 }
