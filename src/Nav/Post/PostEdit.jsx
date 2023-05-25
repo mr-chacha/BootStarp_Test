@@ -139,6 +139,7 @@ export default function PostEdit() {
     URL.revokeObjectURL(edtiTitleImage);
     setEditTitleImage("");
   };
+
   //수정완료 버튼
   const handleUpdatePost = () => {
     if ((!editTitle && !post?.title) || (!editContent && !post?.contents)) {
@@ -154,7 +155,6 @@ export default function PostEdit() {
       index: 0,
       category: editCategory === undefined ? post?.category : editCategory,
       title: editTitle === undefined ? post?.title : editTitle,
-      // titleImg: edtiTitleImage === undefined ? post?.titleImg : edtiTitleImage ,
       titleImg: !edtiTitleImage
         ? post?.titleImg
         : edtiTitleImage || !post?.titleImg
@@ -166,42 +166,18 @@ export default function PostEdit() {
       count: 1,
     };
 
-    console.log("editData", editData?.titleImg);
-    console.log("postimg", editData?.post?.titleImg);
-    if (editData.category === "공지사항") {
-      axios
-        .put(`http://localhost:3001/post/${param?.id}`, editData)
-        .then((response) => {
-          console.log(response.data);
-          alert("글 수정 성공");
-          //글작성후 상세페이지로 이동
-          navigate(`/postdetail/${editData.id}`);
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("글 등록 실패");
-        });
-    }
-    if (editData.category === "팡고소식") {
-      if (!editData.titleImg) {
-        alert("썸네일을 추가해주세요");
-
-        return;
-      }
-      console.log("test", editData?.titleImg);
-      axios
-        .put(`http://localhost:3001/news/${param?.id}`, editData)
-        .then((response) => {
-          console.log(response.data);
-          alert("글 수정 성공");
-          //글작성후 상세페이지로 이동
-          navigate(`/postdetail/${editData.id}`);
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("글 등록 실패");
-        });
-    }
+    axios
+      .put(`http://localhost:3001/post/${param?.id}`, editData)
+      .then((response) => {
+        console.log(response.data);
+        alert("글 수정 성공");
+        //글작성후 상세페이지로 이동
+        navigate(`/postdetail/${editData.id}`);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("글 등록 실패");
+      });
   };
 
   // 카테고리 설정에 따른 썸네일 이미지 업로드 칸 스타일처리
@@ -264,13 +240,22 @@ export default function PostEdit() {
         </div>
         <div>
           {/* 이미지 미리보기 */}
-          {edtiTitleImage && (
+          {edtiTitleImage || post?.titleImg ? (
             <img
               alt="sample"
-              src={edtiTitleImage}
+              src={
+                !edtiTitleImage
+                  ? post?.titleImg
+                  : edtiTitleImage || !post?.titleImg
+                  ? edtiTitleImage
+                  : post?.titleImg
+              }
               style={{ width: "500px", height: "auto" }}
             />
+          ) : (
+            ""
           )}
+
           <button
             style={{
               width: "50px",

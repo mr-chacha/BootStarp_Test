@@ -45,10 +45,7 @@ export default function PostAdd() {
   // 썸네일 이미지 미리보기
   const [titleImage, setTitleImage] = useState("");
   const fileRef = useRef();
-  // 썸네일 이미지 등록함수
-  const saveFileImage = (event) => {
-    setTitleImage(URL.createObjectURL(event.target.files[0]));
-  };
+
   // 썸네일 이미지 취소함수
   const deleteFileImage = () => {
     URL.revokeObjectURL(titleImage);
@@ -93,41 +90,28 @@ export default function PostAdd() {
       alert("카테고리를 설정해주세요");
       return;
     }
-    if (category === "공지사항") {
-      axios
-        .post("http://localhost:3001/post", data)
-        .then((response) => {
-          console.log(response.data);
-          alert("글 등록 성공");
-          //글작성후 상세페이지로 이동
-          navigate(`/postdetail/${data.id}`);
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("글 등록 실패");
-        });
-    }
+
     if (category === "팡고소식") {
       if (!titleImage) {
         alert("썸네일 추가해주세요");
         return;
       }
-      axios
-        .post("http://localhost:3001/post", data)
-        .then((response) => {
-          console.log(response.data);
-          alert("글 등록 성공");
-          //글작성후 상세페이지로 이동
-          navigate(`/postdetail/${data.id}`);
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("글 등록 실패");
-        });
     }
+    axios
+      .post("http://localhost:3001/post", data)
+      .then((response) => {
+        console.log(response.data);
+        alert("글 등록 성공");
+        //글작성후 상세페이지로 이동
+        navigate(`/postdetail/${data.id}`);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("글 등록 실패");
+      });
   };
 
-  // base64 >> Img Url 로 변경하는 onChange
+  // base64 >> Quill Img Url 로 변경하는 onChange
   const onFileUpload = async (event) => {
     const ACCESS_KEY = "AKIATNGWND7GCOYJREO5";
     const SECRET_ACCESS_KEY = "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";
@@ -163,20 +147,66 @@ export default function PostAdd() {
       .on("httpUploadProgress", (evt) => {
         alert("SUCCESS");
         console.log("params", params);
+
+        const { Bucket, Key } = params;
+        //이미지의 url
+        const requestUrl = `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`;
+        //에디터 객체를 가져옴
+        const editor = quillRef.current.getEditor();
+        //에디터 커서 위치값을 가져온뒤
+        const range = editor.getSelection();
+        //원래 위치에 이미지를 삽입함
+        editor.insertEmbed(range, "image", requestUrl);
       })
       .send((err) => {
         if (err) console.log(err);
       });
+  };
+  // base64 >> Title Img Url 로 변경하는 onChange
+  const onTitleImgUpload = async (event) => {
+    const ACCESS_KEY = "AKIATNGWND7GCOYJREO5";
+    const SECRET_ACCESS_KEY = "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";
+    const REGION = "ap-northeast-2";
+    const S3_BUCKET = "chacha-upload-img";
 
-    const { Bucket, Key } = params;
-    //이미지의 url
-    const requestUrl = `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`;
-    //에디터 객체를 가져옴
-    const editor = quillRef.current.getEditor();
-    //에디터 커서 위치값을 가져온뒤
-    const range = editor.getSelection();
-    //원래 위치에 이미지를 삽입함
-    editor.insertEmbed(range, "image", requestUrl);
+    // AWS ACCESS KEY를 세팅
+    AWS.config.update({
+      accessKeyId: ACCESS_KEY,
+      secretAccessKey: SECRET_ACCESS_KEY,
+    });
+
+    // 버킷에 맞는 이름과 리전을 설정합니다.
+    const myBucket = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("img", file);
+
+    // 파일과 파일이름을 넘겨줌
+    const params = {
+      ACL: "public-read",
+      Body: file,
+      Bucket: S3_BUCKET,
+      //파일 이름이 겹치지않게 uuid 사용
+      Key: uuidv4(),
+    };
+
+    myBucket
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        alert("SUCCESS");
+        console.log("params", params);
+
+        const { Bucket, Key } = params;
+        //이미지의 url
+        const requestUrl = `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`;
+        setTitleImage(requestUrl);
+      })
+      .send((err) => {
+        if (err) console.log(err);
+      });
   };
 
   // 카테고리 설정에 따른 썸네일 이미지 업로드 칸 스타일처리
@@ -230,10 +260,9 @@ export default function PostAdd() {
           }}
         >
           <input
-            name="imggeUpload"
             type="file"
             accept="image/png, image/jpeg, image/jpg"
-            onChange={saveFileImage}
+            onChange={onTitleImgUpload}
           />
         </div>
         <div>

@@ -28,10 +28,34 @@ export default function PostDetail() {
   useEffect(() => {
     postGet();
   }, []);
-
+  //삭제함수
+  const handleDelete = async () => {
+    //확인 버튼을 누르면 실행될 코드
+    if (window.confirm("정말 삭제하겠습니까?")) {
+      try {
+        await axios.delete(`http://localhost:3001/post/${post.id}`);
+        if (post?.category === "공지사항") {
+          navigate("/post");
+        } else {
+          navigate("/company");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      // 취소 버튼을 누른 경우 실행될 코드
+      console.log("취소 버튼을 눌렀습니다.");
+      return;
+    }
+  };
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <h1> 글제목 :{post?.title}</h1>
+      {post?.category === "공지사항" ? (
+        ""
+      ) : (
+        <img src={post?.titleImg} style={{ width: "500px", height: "auto" }} />
+      )}
       <ReactQuill
         value={post?.contents}
         readOnly={true}
@@ -40,7 +64,7 @@ export default function PostDetail() {
         modules={{ toolbar: false }} // 툴바 제거
       />
       <button onClick={navigateTo}>수정</button>
-      <button>삭제</button>
+      <button onClick={handleDelete}>삭제</button>
     </div>
   );
 }

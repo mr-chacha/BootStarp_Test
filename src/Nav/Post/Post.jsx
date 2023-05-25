@@ -15,12 +15,15 @@ export default function Post() {
   };
 
   // 글 조회하는 함수들
-  const [posts, setPosts] = useState([]);
+  const [data, setData] = useState([]);
+  //카테고리가 팡고소식인거만 모아줌
+  const post = data.filter((post) => post?.category === "공지사항");
+  // DB에서 데이터 가져오기
   const handleGet = () => {
     axios
       .get("http://localhost:3001/post") // 서버주소
       .then((response) => {
-        setPosts(response.data);
+        setData(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -52,8 +55,8 @@ export default function Post() {
           <HeaderTh>조회수</HeaderTh>
         </CommunityeHeader>
         {/* 여기서 맵을 돌릴거 */}
-        {posts.map((item) => {
-          return <Postbox item={item} />;
+        {post.map((item) => {
+          return <Postbox item={item} key={item} />;
         })}
 
         <CommunityFooter>
