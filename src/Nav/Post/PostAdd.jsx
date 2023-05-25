@@ -113,10 +113,10 @@ export default function PostAdd() {
 
   // base64 >> Quill Img Url 로 변경하는 onChange
   const onFileUpload = async (event) => {
-    const ACCESS_KEY = "AKIATNGWND7GCOYJREO5";
-    const SECRET_ACCESS_KEY = "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";
-    const REGION = "ap-northeast-2";
-    const S3_BUCKET = "chacha-upload-img";
+    const ACCESS_KEY = process.env.ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
+    const REGION = process.env.REGION;
+    const S3_BUCKET = process.env.S3_BUCKET;
 
     // AWS ACCESS KEY를 세팅
     AWS.config.update({
@@ -145,9 +145,6 @@ export default function PostAdd() {
     myBucket
       .putObject(params)
       .on("httpUploadProgress", (evt) => {
-        alert("SUCCESS");
-        console.log("params", params);
-
         const { Bucket, Key } = params;
         //이미지의 url
         const requestUrl = `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`;
@@ -196,9 +193,6 @@ export default function PostAdd() {
     myBucket
       .putObject(params)
       .on("httpUploadProgress", (evt) => {
-        alert("SUCCESS");
-        console.log("params", params);
-
         const { Bucket, Key } = params;
         //이미지의 url
         const requestUrl = `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`;
