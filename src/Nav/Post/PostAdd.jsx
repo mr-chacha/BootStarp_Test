@@ -68,15 +68,20 @@ export default function PostAdd() {
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
+  //중요공지
+  const [important, setImportant] = useState("");
+  const handleimportantChange = (event) => {
+    setImportant(event.target.value);
+  };
 
   //게시글 등록 함수
   const handlePost = () => {
     const data = {
       id: uuidv4(),
-      index: 0,
-      category: category,
       title: title,
+      category: category,
       titleImg: titleImage,
+      important: important,
       contents: contents,
       admin: "팡고",
       date: new Date().toISOString(),
@@ -250,6 +255,20 @@ export default function PostAdd() {
           ))}
         </Form>
       </div>
+      <p>중요공지</p>
+      <Form>
+        {["radio"].map((type) => (
+          <div className="mb-3" key={type}>
+            <Form.Check
+              label={"중요공지"}
+              value={"중요공지"}
+              name="group1"
+              type={type}
+              onChange={handleimportantChange}
+            />
+          </div>
+        ))}
+      </Form>
 
       <div ref={fileRef} style={{ display: "none" }}>
         <h1>썸네일 이미지 업로드 </h1>
