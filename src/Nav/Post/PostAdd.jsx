@@ -6,6 +6,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function PostAdd() {
   //네비게이트
@@ -51,7 +52,7 @@ export default function PostAdd() {
     URL.revokeObjectURL(titleImage);
     setTitleImage("");
   };
-
+  const [backImage, setBackImage] = useState("");
   //게시글 등록
   //제목
   const [title, setTitle] = useState("");
@@ -69,10 +70,11 @@ export default function PostAdd() {
     setCategory(event.target.value);
   };
   //중요공지
-  const [important, setImportant] = useState("");
+  const [important, setImportant] = useState(false);
   const handleimportantChange = (event) => {
-    setImportant(event.target.value);
+    setImportant(event.target.checked);
   };
+  const token = Cookies.get("accessToken");
 
   //게시글 등록 함수
   const handlePost = () => {
@@ -81,7 +83,8 @@ export default function PostAdd() {
       title: title,
       category: category,
       titleImg: titleImage,
-      important: important,
+      backImage: backImage,
+      important: false,
       contents: contents,
       admin: "팡고",
       date: new Date().toISOString(),
@@ -95,7 +98,6 @@ export default function PostAdd() {
       alert("카테고리를 설정해주세요");
       return;
     }
-
     if (category === "팡고소식") {
       if (!titleImage) {
         alert("썸네일 추가해주세요");
@@ -103,9 +105,12 @@ export default function PostAdd() {
       }
     }
     axios
-      .post("http://localhost:3001/post", data)
+      .post("http://main-page-admin.pango-gy.com/notice", data, {
+        headers: {
+          access_token: token,
+        },
+      })
       .then((response) => {
-        console.log(response.data);
         alert("글 등록 성공");
         //글작성후 상세페이지로 이동
         navigate(`/postdetail/${data.id}`);
@@ -220,8 +225,6 @@ export default function PostAdd() {
     }
   }, [category]);
 
-  // useEffect(() => {}, [contents]);
-
   return (
     <div>
       <h1>글작성 페이지</h1>
@@ -255,20 +258,28 @@ export default function PostAdd() {
           ))}
         </Form>
       </div>
-      <p>중요공지</p>
-      <Form>
-        {["radio"].map((type) => (
-          <div className="mb-3" key={type}>
-            <Form.Check
-              label={"중요공지"}
-              value={"중요공지"}
-              name="group1"
-              type={type}
-              onChange={handleimportantChange}
-            />
-          </div>
-        ))}
-      </Form>
+      {important}
+      {category === "공지사항" ? (
+        <>
+          <p>중요공지</p>
+          <Form>
+            {["checkbox"].map((type) => (
+              <div className="mb-3" key={type}>
+                <Form.Check
+                  label={"중요공지"}
+                  value={"중요공지"}
+                  name="group1"
+                  type={type}
+                  onChange={handleimportantChange}
+                  checked={important}
+                />
+              </div>
+            ))}
+          </Form>
+        </>
+      ) : (
+        " "
+      )}
 
       <div ref={fileRef} style={{ display: "none" }}>
         <h1>썸네일 이미지 업로드 </h1>

@@ -14,16 +14,20 @@ export default function CompanyComponents() {
   // DB에서 데이터 가져오기
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/post"); // 데이터를 가져올 엔드포인트 URL을 사용합니다.
+      const response = await axios.get(
+        "http://main-page-admin.pango-gy.com/notice"
+      ); // 데이터를 가져올 엔드포인트 URL을 사용합니다.
       setData(response.data); // 응답 데이터를 상태로 설정합니다.
     } catch (error) {
       console.error(error);
       // 에러 처리
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
   //로그인 여부 확인
   const Login = sessionStorage.getItem("admin");
   return (

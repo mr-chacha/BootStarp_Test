@@ -6,6 +6,9 @@ import Postbox from "./Postbox";
 import axios from "axios";
 
 import { AiOutlineSearch } from "react-icons/ai";
+import ImportantPostbox from "./ImportantPost";
+import Cookies from "js-cookie";
+
 export default function Post() {
   // Pagination
   const [page, setPage] = useState(1);
@@ -15,14 +18,11 @@ export default function Post() {
   };
 
   // 글 조회하는 함수들
-
-  //카테고리가 팡고소식인거만 모아줌
-
   // DB에서 데이터 가져오기
   const [post, setPost] = useState();
   const handleGet = () => {
     axios
-      .get("http://localhost:3001/post") // 서버주소
+      .get("http://main-page-admin.pango-gy.com/notice") // 서버주소
       .then((response) => {
         //카테고리가 팡고소식인거만 모아줌
         setPost(response.data.filter((post) => post?.category === "공지사항"));
@@ -39,7 +39,8 @@ export default function Post() {
   }, []);
 
   //로그인 여부 확인
-  const Login = sessionStorage.getItem("admin");
+
+  const Login = Cookies.get("accessToken");
   // 공지사항 검색
   const SerchRef = useRef();
   // 인풋값의 온체인지
@@ -53,13 +54,13 @@ export default function Post() {
   // 검색 온클릭
   const btn = (event) => {
     event.preventDefault(); // 기본 동작 막기
+
     if (searchText === "") {
       alert("검색어를 입력해주세요");
 
       return;
     } else {
       setSearchTexts(searchText);
-
       return;
     }
   };
@@ -93,14 +94,21 @@ export default function Post() {
           <HeaderTh style={{ padding: "0px 32px 0px 49px" }}>작성시간</HeaderTh>
           <HeaderTh>조회수</HeaderTh>
         </CommunityeHeader>
-        {/* 여기서 맵을 돌릴거 */}
+        {/* 중요한공지만 따로 상단에 고정 */}
+        {post
+          ?.filter((items) => items?.important === true)
+          .map((items, im) => {
+            return <ImportantPostbox item={items} key={items.id} />;
+          })}
+
+        {/* 일반 공지사항은 여기서 map */}
         {post
           ?.slice(items * (page - 1), items * (page - 1) + items)
           .map((item, index) => {
             return (
               <Postbox
                 item={item}
-                key={item}
+                key={item.id}
                 index={(page - 1) * 10 + index + 1}
               />
             );

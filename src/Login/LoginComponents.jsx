@@ -1,24 +1,63 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginComponents() {
   //네비게이트
   const navigate = useNavigate();
-  //디비에 있는걸 전부가져온뒤
-  const [data, setData] = useState([]);
   // DB에서 데이터 가져오기
+
+  // const fetchData = async () => {
+  //   const admin = {
+  //     id: loginId,
+  //     pw: loginPw,
+  //   };
+  //   try {
+  //     const response = await axios.post(
+  //       "http://main-page-admin.pango-gy.com/auth",
+  //       admin
+  //     );
+  //     const accessToken = response.data.accessToken;
+  //     setData(accessToken);
+  //     console.log(accessToken);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  //   if (!loginId === "pango") {
+  //     alert("아이디를 확인하세요");
+  //     return;
+  //   }
+  //   if (!loginPw === "vkdrh!0303") {
+  //     alert("비밀번호를 확인하세요");
+  //     return;
+  //   }
+  //   alert("로그인이 완료되었습니다.");
+  // };
   const fetchData = async () => {
+    const admin = {
+      id: loginId,
+      password: loginPw,
+    };
     try {
-      const response = await axios.get("http://localhost:3001/admin");
-      setData(response.data);
+      const response = await axios.post(
+        "http://main-page-admin.pango-gy.com/auth",
+        admin
+      );
+      Cookies.set("accessToken", response.data.access_token); // 쿠키에 액세스 토큰 저장
+      if (!loginId === "pango") {
+        alert("아이디를 확인하세요");
+        return;
+      }
+      if (!loginPw === "vkdrh!0303") {
+        alert("비밀번호를 확인하세요");
+        return;
+      }
+      alert("로그인이 완료되었습니다.");
     } catch (error) {
       console.error(error);
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   //아이디
   const [loginId, setLoginId] = useState("");
@@ -34,23 +73,6 @@ export default function LoginComponents() {
     console.log(loginId);
   };
 
-  //로그인함수
-  const adminLogin = () => {
-    if (loginId !== data[0]?.id) {
-      alert("아이디를 확인하세요");
-      return;
-    }
-    if (loginPw !== data[0]?.password) {
-      alert("비밀번호를 확인하세요");
-      return;
-    }
-    if (loginId === data[0]?.id && loginPw === data[0]?.password) {
-      alert("로그인 성공");
-    }
-    sessionStorage.setItem("admin", "로그인완료");
-    navigate("/");
-  };
-
   return (
     <div
       style={{
@@ -60,31 +82,22 @@ export default function LoginComponents() {
         height: "500px",
       }}
     >
-      <form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "300px",
-          alignContent: "center",
-          justifyContent: "center",
-        }}
-      >
-        아이디 :
-        <input
-          placeholder="아이디를 입력하세요"
-          value={loginId}
-          onChange={idonChange}
-          type="text"
-        />
-        비밀번호 :
-        <input
-          placeholder="비밀번호를 입력하세요"
-          value={loginPw}
-          onChange={pwonChange}
-          type="password"
-        />
-        <button onClick={adminLogin}>로그인 하기</button>
-      </form>
+      아이디 :
+      <input
+        placeholder="아이디를 입력하세요"
+        value={loginId}
+        onChange={idonChange}
+        type="text"
+      />
+      비밀번호 :
+      <input
+        placeholder="비밀번호를 입력하세요"
+        value={loginPw}
+        onChange={pwonChange}
+        // type="password"
+        type="text"
+      />
+      <button onClick={fetchData}>로그인 하기</button>
     </div>
   );
 }
