@@ -3,37 +3,46 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import Cookies from "js-cookie";
 export default function PostDetail() {
   const navigate = useNavigate();
-
+  const [post, setPosts] = useState([]);
   const navigateTo = () => {
     navigate(`/postedit/${post.id}`);
   };
-
-  // 글 조회하는 함수들
-  const [posts, setPosts] = useState([]);
+  //홈페이지 아이디
+  const param = useParams();
+  //로그인 토큰
+  const token = Cookies.get("accessToken");
   const postGet = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/post");
+      const response = await axios.get(
+        `http://main-page-admin.pango-gy.com/notice?id=${param.id}`
+      );
       setPosts(response.data);
+      console.log(response?.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  //파람즈로 도메인의 아이디값을 가져와서 json에 있는 아이디랑 같은것만 post라는 변수에 담아서 사용함
-  const param = useParams();
-  const post = posts.find((id) => id.id === param.id);
-
   useEffect(() => {
     postGet();
   }, []);
+
   //삭제함수
   const handleDelete = async () => {
     //확인 버튼을 누르면 실행될 코드
     if (window.confirm("정말 삭제하겠습니까?")) {
       try {
-        await axios.delete(`http://localhost:3001/post/${post.id}`);
+        await axios.delete(
+          `http://main-page-admin.pango-gy.com/notice/?id=${param.id}`,
+          {
+            headers: {
+              access_token: token,
+            },
+          }
+        );
         if (post?.category === "공지사항") {
           navigate("/post");
         } else {
@@ -48,6 +57,9 @@ export default function PostDetail() {
       return;
     }
   };
+  //로그인 여부 확인
+  const Login = Cookies.get("accessToken");
+  // 공지사항 검색
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <h1> 글제목 :{post?.title}</h1>
@@ -63,8 +75,14 @@ export default function PostDetail() {
         className="quill"
         modules={{ toolbar: false }} // 툴바 제거
       />
-      <button onClick={navigateTo}>수정</button>
-      <button onClick={handleDelete}>삭제</button>
+      {Login ? (
+        <>
+          <button onClick={navigateTo}>수정</button>
+          <button onClick={handleDelete}>삭제</button>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

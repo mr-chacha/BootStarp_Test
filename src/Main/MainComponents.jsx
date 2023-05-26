@@ -447,7 +447,7 @@ export default function MainComponents() {
       {/* {file.map((item) => {
         return (
           <>
-            <img src={require(`../img/${item}`)} alt="Icon: Time Saving" />;
+            <img src={require(`../img/${item}`)} alt="Icon: Time Saving" key ={item}/>;
           </>
         );
       })} */}

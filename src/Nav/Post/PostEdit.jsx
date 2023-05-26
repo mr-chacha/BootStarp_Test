@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
 import { useNavigate, useParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function PostEdit() {
   //네비게이트
@@ -94,13 +95,15 @@ export default function PostEdit() {
   };
 
   // post 조회하는 함수들
-  const [posts, setPosts] = useState();
+  const [post, setPosts] = useState();
   //파람즈로 도메인의 아이디값을 가져와서 json에 있는 아이디랑 같은것만 post라는 변수에 담아서 사용함
   const param = useParams();
-  const post = posts?.find((id) => id?.id === param?.id);
   const postGet = async () => {
-    const response = await axios.get("http://localhost:3001/post");
+    const response = await axios.get(
+      `http://main-page-admin.pango-gy.com/notice?id=${param.id}`
+    );
     setPosts(response.data);
+
     return;
   };
   useEffect(() => {
@@ -122,7 +125,7 @@ export default function PostEdit() {
   };
 
   //카테고리 수정
-  const [editCategory, setEditCategory] = useState("");
+  const [editCategory, setEditCategory] = useState(post?.category);
   const handleCategoryChange = (event) => {
     setEditCategory(event.target.value);
   };
@@ -140,44 +143,59 @@ export default function PostEdit() {
     setEditTitleImage("");
   };
 
-  //수정완료 버튼
-  const handleUpdatePost = () => {
-    if ((!editTitle && !post?.title) || (!editContent && !post?.contents)) {
-      alert("제목 또는 내용을 입력해주세요");
-      return;
-    }
-    if (!editCategory && post?.category) {
-      alert("카테고리를 설정해주세요");
-      return;
-    }
-    const editData = {
-      id: post?.id,
-      index: 0,
-      category: editCategory === undefined ? post?.category : editCategory,
-      title: editTitle === undefined ? post?.title : editTitle,
-      titleImg: !edtiTitleImage
-        ? post?.titleImg
-        : edtiTitleImage || !post?.titleImg
-        ? edtiTitleImage
-        : post?.titleImg,
-      contents: editContent === undefined ? post?.contents : editContent,
-      admin: "팡고",
-      date: post?.date,
-      count: 1,
-    };
+  //중요공지
+  const [editimportant, setEditImportant] = useState("");
+  const handleimportantChange = (event) => {
+    setEditImportant(event.target.checked);
+  };
+  //로그인키
+  const token = Cookies.get("accessToken");
 
-    axios
-      .put(`http://localhost:3001/post/${param?.id}`, editData)
-      .then((response) => {
-        console.log(response.data);
-        alert("글 수정 성공");
-        //글작성후 상세페이지로 이동
-        navigate(`/postdetail/${editData.id}`);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("글 등록 실패");
-      });
+  //수정완료 버튼
+  const handleUpdatePost = async () => {
+    try {
+      if ((!editTitle && !post?.title) || (!editContent && !post?.contents)) {
+        alert("제목 또는 내용을 입력해주세요");
+        return;
+      }
+      if (!editCategory && !post?.category) {
+        alert("카테고리를 설정해주세요");
+        return;
+      }
+      const editData = {
+        id: post?.id,
+        index: 0,
+        category: !editCategory ? post?.category : editCategory,
+        title: editTitle === undefined ? post?.title : editTitle,
+        titleImg: !edtiTitleImage
+          ? post?.titleImg
+          : edtiTitleImage || !post?.titleImg
+          ? edtiTitleImage
+          : post?.titleImg,
+        contents: editContent === undefined ? post?.contents : editContent,
+        admin: "팡고",
+        date: post?.date,
+        count: 1,
+        important: editimportant === false ? false : true,
+        backImage: "",
+      };
+      console.log(editData);
+
+      var response = await axios.put(
+        `http://main-page-admin.pango-gy.com/notice?id=${param.id}`,
+        editData,
+        {
+          headers: {
+            access_token: token,
+          },
+        }
+      );
+      alert("글 수정 성공");
+      navigate(`/postdetail/${editData.id}`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // 카테고리 설정에 따른 썸네일 이미지 업로드 칸 스타일처리
@@ -188,6 +206,7 @@ export default function PostEdit() {
       fileRef.current.style.display = "none";
     }
   }, [editCategory]);
+
   return (
     <div>
       <h1>글수정 페이지</h1>
@@ -199,6 +218,8 @@ export default function PostEdit() {
       />
       <div>
         <p> 카테고리 </p>
+        {post?.category}
+        {editCategory}
         <Form>
           {["radio"].map((type) => (
             <div className="mb-3" key={type}>
@@ -208,18 +229,45 @@ export default function PostEdit() {
                 name="group1"
                 type={type}
                 onChange={handleCategoryChange}
+                checked={
+                  !editCategory
+                    ? post?.category === "공지사항"
+                    : editCategory === "공지사항"
+                }
               />
+
               <Form.Check
                 label={"팡고소식"}
                 value={"팡고소식"}
                 name="group1"
                 type={type}
                 onChange={handleCategoryChange}
+                checked={
+                  !editCategory
+                    ? post?.category === "팡고소식"
+                    : editCategory === "팡고소식"
+                }
               />
             </div>
           ))}
         </Form>
       </div>
+
+      <Form>
+        {["checkbox"].map((type) => (
+          <div className="mb-3" key={type}>
+            <Form.Check
+              label={"중요공지"}
+              value={"중요공지"}
+              name="group1"
+              type={type}
+              onChange={handleimportantChange}
+              checked={editimportant}
+            />
+          </div>
+        ))}
+      </Form>
+      {}
       <div ref={fileRef} style={{ display: "none" }}>
         <h1>썸네일 이미지 업로드 </h1>
         <div

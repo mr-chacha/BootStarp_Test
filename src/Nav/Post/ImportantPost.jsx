@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
-export default function Postbox({ item, index, im }) {
+export default function ImportantPostbox({ item, index, im }) {
   console.log("2", im);
   //해당페이지의 디테일 페이지로 이동하는 함수
   const navigate = useNavigate();
@@ -18,12 +18,12 @@ export default function Postbox({ item, index, im }) {
     if (!Date) {
       return "";
     }
-
+    const today = moment();
     //포스트 작성한시간
     const postingDate = moment(item?.date);
-    const dayDiff = postingDate.diff(postingDate, "days");
-    const hourDiff = postingDate.diff(postingDate, "hours");
-    const minutesDiff = postingDate.diff(postingDate, "minutes");
+    const dayDiff = postingDate.diff(today, "days");
+    const hourDiff = postingDate.diff(today, "hours");
+    const minutesDiff = postingDate.diff(today, "minutes");
     if (dayDiff === 0 && hourDiff === 0 && minutesDiff === 0) {
       // 작성한지 1분도 안지났을때
       return "방금전";
@@ -58,7 +58,6 @@ export default function Postbox({ item, index, im }) {
       return "N";
     }
   };
-
   // new태그
   const newPost = newPosts(new Date("2023-03-02T12:00:00"));
 
@@ -66,26 +65,18 @@ export default function Postbox({ item, index, im }) {
     <CommentWrap>
       <TableTd Width="50px" Color="fff">
         {/* important가 중요공지면 중요 뱃지 아니면 인덱스 번호 */}
-        {/* {item?.important !== "중요공지" ? (
-          index
-        ) : (
-          <Postimportant>중요</Postimportant>
-        )} */}
-        {index}
+        <Postimportant>중요</Postimportant>
       </TableTd>
       <TableTd TableTd Width="60px" Color="fff">
-        {/* important가 중요공지가 아니면 일반카테고리 아니면 중요공지 */}
-        {/* {item?.important !== "중요공지" ? item?.category : item?.important} */}
         {item?.category}
       </TableTd>
       <TableTds Width="450px" Color="fff">
         <span onClick={navigateTo}>{item?.title}</span>
-
         {/* 포스트 작성한지 30분이 지날때면 스타일을 주기 */}
         {newPost ? <PostNew>N</PostNew> : ""}
       </TableTds>
       <TableTdName Width="130px" Color="#A7A9AC">
-        팡고
+        {item?.admin}
       </TableTdName>
       <TableTd Width="80px" Color="#A7A9AC">
         {dayMinuteCounter}

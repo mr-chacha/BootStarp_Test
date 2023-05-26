@@ -6,6 +6,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function PostAdd() {
   //네비게이트
@@ -51,7 +52,7 @@ export default function PostAdd() {
     URL.revokeObjectURL(titleImage);
     setTitleImage("");
   };
-
+  const [backImage, setBackImage] = useState("");
   //게시글 등록
   //제목
   const [title, setTitle] = useState("");
@@ -68,15 +69,22 @@ export default function PostAdd() {
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
+  //중요공지
+  const [important, setImportant] = useState(false);
+  const handleimportantChange = (event) => {
+    setImportant(event.target.checked);
+  };
+  const token = Cookies.get("accessToken");
 
   //게시글 등록 함수
   const handlePost = () => {
     const data = {
       id: uuidv4(),
-      index: 0,
-      category: category,
       title: title,
+      category: category,
       titleImg: titleImage,
+      backImage: backImage,
+      important: false,
       contents: contents,
       admin: "팡고",
       date: new Date().toISOString(),
@@ -90,7 +98,6 @@ export default function PostAdd() {
       alert("카테고리를 설정해주세요");
       return;
     }
-
     if (category === "팡고소식") {
       if (!titleImage) {
         alert("썸네일 추가해주세요");
@@ -98,9 +105,12 @@ export default function PostAdd() {
       }
     }
     axios
-      .post("http://localhost:3001/post", data)
+      .post("http://main-page-admin.pango-gy.com/notice", data, {
+        headers: {
+          access_token: token,
+        },
+      })
       .then((response) => {
-        console.log(response.data);
         alert("글 등록 성공");
         //글작성후 상세페이지로 이동
         navigate(`/postdetail/${data.id}`);
@@ -113,12 +123,12 @@ export default function PostAdd() {
 
   // base64 >> Quill Img Url 로 변경하는 onChange
   const onFileUpload = async (event) => {
-    const ACCESS_KEY = process.env.ACCESS_KEY;
-    const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
-    const REGION = process.env.REGION;
-    const S3_BUCKET = process.env.S3_BUCKET;
+    const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;
+    const REGION = process.env.REACT_APP_REGION;
+    const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
 
-    // AWS ACCESS KEY를 세팅
+    // AWS ACCESS KEY를 세팅ㄴ
     AWS.config.update({
       accessKeyId: ACCESS_KEY,
       secretAccessKey: SECRET_ACCESS_KEY,
@@ -159,12 +169,13 @@ export default function PostAdd() {
         if (err) console.log(err);
       });
   };
+
   // base64 >> Title Img Url 로 변경하는 onChange
   const onTitleImgUpload = async (event) => {
-    const ACCESS_KEY = process.env.ACCESS_KEY;
-    const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
-    const REGION = process.env.REGION;
-    const S3_BUCKET = process.env.S3_BUCKET;
+    const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;
+    const REGION = process.env.REACT_APP_REGION;
+    const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
 
     // AWS ACCESS KEY를 세팅
     AWS.config.update({
@@ -180,6 +191,8 @@ export default function PostAdd() {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("img", file);
+
+    //이미지의 url
 
     // 파일과 파일이름을 넘겨줌
     const params = {
@@ -226,7 +239,7 @@ export default function PostAdd() {
         <p> 카테고리 </p>
         <Form>
           {["radio"].map((type) => (
-            <div className="mb-3">
+            <div className="mb-3" key={type}>
               <Form.Check
                 label={"공지사항"}
                 value={"공지사항"}
@@ -245,6 +258,28 @@ export default function PostAdd() {
           ))}
         </Form>
       </div>
+      {important}
+      {category === "공지사항" ? (
+        <>
+          <p>중요공지</p>
+          <Form>
+            {["checkbox"].map((type) => (
+              <div className="mb-3" key={type}>
+                <Form.Check
+                  label={"중요공지"}
+                  value={"중요공지"}
+                  name="group1"
+                  type={type}
+                  onChange={handleimportantChange}
+                  checked={important}
+                />
+              </div>
+            ))}
+          </Form>
+        </>
+      ) : (
+        " "
+      )}
 
       <div ref={fileRef} style={{ display: "none" }}>
         <h1>썸네일 이미지 업로드 </h1>
@@ -301,7 +336,6 @@ export default function PostAdd() {
       </div>
       <button onClick={handlePost}> 글 등록</button>
       <button>취소</button>
-
     </div>
   );
 }
