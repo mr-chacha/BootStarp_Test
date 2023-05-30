@@ -5,10 +5,12 @@ import AWS from "aws-sdk";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export default function PostAdd() {
+  //DB
+  const DB = process.env.REACT_APP_DB;
   //네비게이트
   const navigate = useNavigate();
   //Quill Ref로 dom 직접관여
@@ -44,16 +46,25 @@ export default function PostAdd() {
   }, []);
 
   // 썸네일 이미지 미리보기
-  const [titleImage, setTitleImage] = useState("");
+  const [titleImg, setTitleImg] = useState("");
   const fileRef = useRef();
 
   // 썸네일 이미지 취소함수
   const deleteFileImage = () => {
-    URL.revokeObjectURL(titleImage);
-    setTitleImage("");
+    URL.revokeObjectURL(titleImg);
+    setTitleImg("");
   };
-  const [backImage, setBackImage] = useState("");
+
+  // 배경이미지
+  const [backImg, setBackImg] = useState("");
+  const deleteBackImage = () => {
+    URL.revokeObjectURL(backImg);
+    setBackImg("");
+  };
+
   //게시글 등록
+  const [id, setId] = useState();
+
   //제목
   const [title, setTitle] = useState("");
   const handleTitleChange = (event) => {
@@ -70,26 +81,27 @@ export default function PostAdd() {
     setCategory(event.target.value);
   };
   //중요공지
-  const [important, setImportant] = useState(false);
+  const [important, setImportant] = useState();
   const handleimportantChange = (event) => {
     setImportant(event.target.checked);
   };
   const token = Cookies.get("accessToken");
 
   //게시글 등록 함수
-  const handlePost = () => {
+  const handlePost = async () => {
     const data = {
-      id: uuidv4(),
+      id: !id === "",
       title: title,
       category: category,
-      titleImg: titleImage,
-      backImage: backImage,
-      important: false,
+      titleImg: titleImg,
+      backImage: backImg,
+      important: !important === "",
       contents: contents,
       admin: "팡고",
       date: new Date().toISOString(),
       count: 1,
     };
+
     if (!title || !contents) {
       alert("제목 또는 내용을 입력해주세요");
       return;
@@ -98,27 +110,27 @@ export default function PostAdd() {
       alert("카테고리를 설정해주세요");
       return;
     }
-    if (category === "팡고소식") {
-      if (!titleImage) {
-        alert("썸네일 추가해주세요");
-        return;
-      }
+    if ((category === "팡고소식" && !titleImg, !backImg)) {
+      alert("이미지가 없습니다");
+      return;
     }
-    axios
-      .post("http://main-page-admin.pango-gy.com/notice", data, {
+
+    try {
+      const response = await axios.post(DB, data, {
         headers: {
           access_token: token,
         },
-      })
-      .then((response) => {
-        alert("글 등록 성공");
-        //글작성후 상세페이지로 이동
-        navigate(`/postdetail/${data.id}`);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("글 등록 실패");
       });
+
+      const getresponse = await axios.get(DB);
+
+      alert("글 등록 성공");
+      //작성한 글의 아이디로 이동
+      navigate(`/postdetail/${getresponse.data[0].id}`);
+    } catch (error) {
+      console.error(error);
+      alert("글 등록 실패");
+    }
   };
 
   // base64 >> Quill Img Url 로 변경하는 onChange
@@ -192,7 +204,49 @@ export default function PostAdd() {
     const formData = new FormData();
     formData.append("img", file);
 
-    //이미지의 url
+    // 파일과 파일이름을 넘겨줌
+    const params = {
+      ACL: "public-read",
+      Body: file,
+      Bucket: S3_BUCKET,
+      //파일 이름이 겹치지않게 uuid 사용
+      Key: uuidv4(),
+    };
+
+    myBucket
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        const { Bucket, Key } = params;
+        //이미지의 url
+        const requestUrl = `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`;
+        setTitleImg(requestUrl);
+      })
+      .send((err) => {
+        if (err) console.log(err);
+      });
+  };
+
+  // base64 >> Title Img Url 로 변경하는 onChange
+  const onBackImgUpload = async (event) => {
+    const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;
+    const REGION = process.env.REACT_APP_REGION;
+    const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
+
+    // AWS ACCESS KEY를 세팅
+    AWS.config.update({
+      accessKeyId: ACCESS_KEY,
+      secretAccessKey: SECRET_ACCESS_KEY,
+    });
+
+    // 버킷에 맞는 이름과 리전을 설정합니다.
+    const myBucket = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("img", file);
 
     // 파일과 파일이름을 넘겨줌
     const params = {
@@ -209,7 +263,7 @@ export default function PostAdd() {
         const { Bucket, Key } = params;
         //이미지의 url
         const requestUrl = `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`;
-        setTitleImage(requestUrl);
+        setBackImg(requestUrl);
       })
       .send((err) => {
         if (err) console.log(err);
@@ -228,7 +282,6 @@ export default function PostAdd() {
   return (
     <div>
       <h1>글작성 페이지</h1>
-
       <input
         placeholder="제목을 입력하세요"
         value={title}
@@ -300,10 +353,10 @@ export default function PostAdd() {
         </div>
         <div>
           {/* 이미지 미리보기 */}
-          {titleImage && (
+          {titleImg && (
             <img
               alt="sample"
-              src={titleImage}
+              src={titleImg}
               style={{ width: "500px", height: "auto" }}
             />
           )}
@@ -314,6 +367,42 @@ export default function PostAdd() {
               cursor: "pointer",
             }}
             onClick={() => deleteFileImage()}
+          >
+            삭제
+          </button>
+        </div>
+        <h1>배경이미지 업로드 </h1>
+        <div
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <input
+            type="file"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={onBackImgUpload}
+          />
+        </div>
+        <div>
+          <h1>배경이미지 미리보기</h1>
+        </div>
+        <div>
+          {/* 이미지 미리보기 */}
+          {backImg && (
+            <img
+              alt="sample"
+              src={backImg}
+              style={{ width: "500px", height: "auto" }}
+            />
+          )}
+          <button
+            style={{
+              width: "50px",
+              height: "30px",
+              cursor: "pointer",
+            }}
+            onClick={() => deleteBackImage()}
           >
             삭제
           </button>

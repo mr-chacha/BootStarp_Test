@@ -5,8 +5,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Cookies from "js-cookie";
 export default function PostDetail() {
+  //DB
+  const DB = process.env.REACT_APP_DB;
+
   const navigate = useNavigate();
   const [post, setPosts] = useState([]);
+  //수정페이지로 이동
   const navigateTo = () => {
     navigate(`/postedit/${post.id}`);
   };
@@ -14,13 +18,11 @@ export default function PostDetail() {
   const param = useParams();
   //로그인 토큰
   const token = Cookies.get("accessToken");
+  //등록된 post 가져와서 posts에 담기
   const postGet = async () => {
     try {
-      const response = await axios.get(
-        `http://main-page-admin.pango-gy.com/notice?id=${param.id}`
-      );
+      const response = await axios.get(`${DB}?id=${param.id}`);
       setPosts(response.data);
-      console.log(response?.data);
     } catch (error) {
       console.error(error);
     }
@@ -35,14 +37,11 @@ export default function PostDetail() {
     //확인 버튼을 누르면 실행될 코드
     if (window.confirm("정말 삭제하겠습니까?")) {
       try {
-        await axios.delete(
-          `http://main-page-admin.pango-gy.com/notice/?id=${param.id}`,
-          {
-            headers: {
-              access_token: token,
-            },
-          }
-        );
+        await axios.delete(`${DB}/?id=${param.id}`, {
+          headers: {
+            access_token: token,
+          },
+        });
         if (post?.category === "공지사항") {
           navigate("/post");
         } else {
@@ -60,13 +59,25 @@ export default function PostDetail() {
   //로그인 여부 확인
   const Login = Cookies.get("accessToken");
   // 공지사항 검색
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <h1> 글제목 :{post?.title}</h1>
       {post?.category === "공지사항" ? (
         ""
       ) : (
-        <img src={post?.titleImg} style={{ width: "500px", height: "auto" }} />
+        <div style={{ display: "flex" }}>
+          <p>썸네일 이미지</p>
+          <img
+            src={post?.titleImg}
+            style={{ width: "200px", height: "auto" }}
+          />
+          <p>배경 이미지</p>
+          <img
+            src={post?.backImage}
+            style={{ width: "200px", height: "auto" }}
+          />
+        </div>
       )}
       <ReactQuill
         value={post?.contents}

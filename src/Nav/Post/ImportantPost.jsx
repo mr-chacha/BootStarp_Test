@@ -3,8 +3,7 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
-export default function ImportantPostbox({ item, index, im }) {
-  console.log("2", im);
+export default function ImportantPostbox({ item }) {
   //해당페이지의 디테일 페이지로 이동하는 함수
   const navigate = useNavigate();
   const navigateTo = () => {
@@ -18,12 +17,12 @@ export default function ImportantPostbox({ item, index, im }) {
     if (!Date) {
       return "";
     }
-    const today = moment();
+
     //포스트 작성한시간
     const postingDate = moment(item?.date);
-    const dayDiff = postingDate.diff(today, "days");
-    const hourDiff = postingDate.diff(today, "hours");
-    const minutesDiff = postingDate.diff(today, "minutes");
+    const dayDiff = postingDate.diff(postingDate, "days");
+    const hourDiff = postingDate.diff(postingDate, "hours");
+    const minutesDiff = postingDate.diff(postingDate, "minutes");
     if (dayDiff === 0 && hourDiff === 0 && minutesDiff === 0) {
       // 작성한지 1분도 안지났을때
       return "방금전";
@@ -76,7 +75,7 @@ export default function ImportantPostbox({ item, index, im }) {
         {newPost ? <PostNew>N</PostNew> : ""}
       </TableTds>
       <TableTdName Width="130px" Color="#A7A9AC">
-        {item?.admin}
+        팡고
       </TableTdName>
       <TableTd Width="80px" Color="#A7A9AC">
         {dayMinuteCounter}

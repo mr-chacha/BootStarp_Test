@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 export default function Postbox({ item, index, im }) {
-  console.log("2", im);
   //해당페이지의 디테일 페이지로 이동하는 함수
   const navigate = useNavigate();
   const navigateTo = () => {
     navigate(`/postdetail/${item?.id}`);
   };
+
   const date = item?.date;
   const NewDate = date.slice(0, 10);
 
@@ -53,7 +53,7 @@ export default function Postbox({ item, index, im }) {
     //포스트 작성한시간
     const postingDate = moment(item?.date);
     const weeksDiff = postingDate.diff(today, "weeks");
-    // 작성한지 30분이 안된 포스트에는 N이 보이게해줌
+    // 작성한지 2주가 안된 포스트에는 N이 보이게해줌
     if (weeksDiff > -2) {
       return "N";
     }
@@ -65,17 +65,9 @@ export default function Postbox({ item, index, im }) {
   return (
     <CommentWrap>
       <TableTd Width="50px" Color="fff">
-        {/* important가 중요공지면 중요 뱃지 아니면 인덱스 번호 */}
-        {/* {item?.important !== "중요공지" ? (
-          index
-        ) : (
-          <Postimportant>중요</Postimportant>
-        )} */}
         {index}
       </TableTd>
       <TableTd TableTd Width="60px" Color="fff">
-        {/* important가 중요공지가 아니면 일반카테고리 아니면 중요공지 */}
-        {/* {item?.important !== "중요공지" ? item?.category : item?.important} */}
         {item?.category}
       </TableTd>
       <TableTds Width="450px" Color="fff">

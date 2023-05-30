@@ -8,6 +8,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export default function PostEdit() {
+  //DB
+  const DB = process.env.REACT_APP_DB;
   //네비게이트
   const navigate = useNavigate();
   //Quill Ref로 dom 직접관여
@@ -77,7 +79,6 @@ export default function PostEdit() {
       .putObject(params)
       .on("httpUploadProgress", (evt) => {
         alert("SUCCESS");
-        console.log("params", params);
       })
       .send((err) => {
         if (err) console.log(err);
@@ -99,9 +100,7 @@ export default function PostEdit() {
   //파람즈로 도메인의 아이디값을 가져와서 json에 있는 아이디랑 같은것만 post라는 변수에 담아서 사용함
   const param = useParams();
   const postGet = async () => {
-    const response = await axios.get(
-      `http://main-page-admin.pango-gy.com/notice?id=${param.id}`
-    );
+    const response = await axios.get(`${DB}?id=${param.id}`);
     setPosts(response.data);
 
     return;
@@ -143,6 +142,19 @@ export default function PostEdit() {
     setEditTitleImage("");
   };
 
+  // 배경 이미지 미리보기
+  const [editBackImage, setEditBackImage] = useState("");
+  // const fileRef = useRef();
+  // 썸네일 이미지 등록함수
+  const saveBackImage = (event) => {
+    setEditBackImage(URL.createObjectURL(event.target.files[0]));
+  };
+  // 썸네일 이미지 취소함수
+  const deleteBackImage = () => {
+    URL.revokeObjectURL(editBackImage);
+    setEditBackImage("");
+  };
+
   //중요공지
   const [editimportant, setEditImportant] = useState("");
   const handleimportantChange = (event) => {
@@ -176,36 +188,37 @@ export default function PostEdit() {
         admin: "팡고",
         date: post?.date,
         count: 1,
-        important: editimportant === false ? false : true,
-        backImage: "",
+        important: editimportant === "" ? post?.important : editimportant,
+        backImage: !editBackImage
+          ? post?.backImage
+          : editBackImage || !post?.backImage
+          ? editBackImage
+          : post?.backImage,
       };
-      console.log(editData);
 
-      var response = await axios.put(
-        `http://main-page-admin.pango-gy.com/notice?id=${param.id}`,
-        editData,
-        {
-          headers: {
-            access_token: token,
-          },
-        }
-      );
+      var response = await axios.put(`${DB}?id=${param.id}`, editData, {
+        headers: {
+          access_token: token,
+        },
+      });
       alert("글 수정 성공");
       navigate(`/postdetail/${editData.id}`);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const postImportant = post?.important === 1 ? true : false;
+  const postCategory = post?.category;
+
   // 카테고리 설정에 따른 썸네일 이미지 업로드 칸 스타일처리
   useEffect(() => {
-    if (editCategory === "팡고소식") {
+    if (postCategory === "팡고소식") {
       fileRef.current.style.display = "block";
     } else {
       fileRef.current.style.display = "none";
     }
-  }, [editCategory]);
+  }, [postCategory]);
 
   return (
     <div>
@@ -218,8 +231,6 @@ export default function PostEdit() {
       />
       <div>
         <p> 카테고리 </p>
-        {post?.category}
-        {editCategory}
         <Form>
           {["radio"].map((type) => (
             <div className="mb-3" key={type}>
@@ -252,22 +263,45 @@ export default function PostEdit() {
           ))}
         </Form>
       </div>
+      {/* 수정될 카테고리가 없으면 post의 카테고리 수정될게 있으면 수정될 카테고리 */}
+      {!editCategory ? (
+        post?.category === "공지사항" ? (
+          <Form>
+            {["checkbox"].map((type) => (
+              <div className="mb-3" key={type}>
+                <Form.Check
+                  label={"중요공지"}
+                  value={"중요공지"}
+                  name="group1"
+                  type={type}
+                  onChange={handleimportantChange}
+                  checked={editimportant === "" ? postImportant : editimportant}
+                />
+              </div>
+            ))}
+          </Form>
+        ) : (
+          ""
+        )
+      ) : editCategory === "공지사항" ? (
+        <Form>
+          {["checkbox"].map((type) => (
+            <div className="mb-3" key={type}>
+              <Form.Check
+                label={"중요공지"}
+                value={"중요공지"}
+                name="group1"
+                type={type}
+                onChange={handleimportantChange}
+                checked={editimportant === "" ? postImportant : editimportant}
+              />
+            </div>
+          ))}
+        </Form>
+      ) : (
+        ""
+      )}
 
-      <Form>
-        {["checkbox"].map((type) => (
-          <div className="mb-3" key={type}>
-            <Form.Check
-              label={"중요공지"}
-              value={"중요공지"}
-              name="group1"
-              type={type}
-              onChange={handleimportantChange}
-              checked={editimportant}
-            />
-          </div>
-        ))}
-      </Form>
-      {}
       <div ref={fileRef} style={{ display: "none" }}>
         <h1>썸네일 이미지 업로드 </h1>
         <div
@@ -311,6 +345,53 @@ export default function PostEdit() {
               cursor: "pointer",
             }}
             onClick={() => deleteFileImage()}
+          >
+            삭제
+          </button>
+        </div>
+
+        <h1>배경이미지 업로드 </h1>
+        <div
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <input
+            name="imggeUpload"
+            type="file"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={saveBackImage}
+          />
+        </div>
+        <div>
+          <h1>썸네일 미리보기</h1>
+        </div>
+        <div>
+          {/* 이미지 미리보기 */}
+          {editBackImage || post?.backImage ? (
+            <img
+              alt="sample"
+              src={
+                !editBackImage
+                  ? post?.backImage
+                  : editBackImage || !post?.backImage
+                  ? editBackImage
+                  : post?.backImage
+              }
+              style={{ width: "500px", height: "auto" }}
+            />
+          ) : (
+            ""
+          )}
+
+          <button
+            style={{
+              width: "50px",
+              height: "30px",
+              cursor: "pointer",
+            }}
+            onClick={() => deleteBackImage()}
           >
             삭제
           </button>
