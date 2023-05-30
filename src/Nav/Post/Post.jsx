@@ -26,9 +26,7 @@ export default function Post() {
   const handleGet = async () => {
     try {
       const response = await axios.get(DB); // 서버주소
-
       //카테고리가 팡고소식인거만 모아줌
-      console.log(response);
       setPost(response.data.filter((post) => post?.category === "공지사항"));
     } catch (error) {
       console.error(error);
@@ -98,7 +96,7 @@ export default function Post() {
         </CommunityeHeader>
         {/* 중요한공지만 따로 상단에 고정 */}
         {post
-          ?.filter((items) => items?.important === true)
+          ?.filter((items) => items?.important === 1)
           .map((items, im) => {
             return <ImportantPostbox item={items} key={items.id} />;
           })}

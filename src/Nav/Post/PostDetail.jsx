@@ -59,13 +59,25 @@ export default function PostDetail() {
   //로그인 여부 확인
   const Login = Cookies.get("accessToken");
   // 공지사항 검색
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <h1> 글제목 :{post?.title}</h1>
       {post?.category === "공지사항" ? (
         ""
       ) : (
-        <img src={post?.titleImg} style={{ width: "500px", height: "auto" }} />
+        <div style={{ display: "flex" }}>
+          <p>썸네일 이미지</p>
+          <img
+            src={post?.titleImg}
+            style={{ width: "200px", height: "auto" }}
+          />
+          <p>배경 이미지</p>
+          <img
+            src={post?.backImage}
+            style={{ width: "200px", height: "auto" }}
+          />
+        </div>
       )}
       <ReactQuill
         value={post?.contents}
