@@ -5,10 +5,12 @@ import AWS from "aws-sdk";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export default function PostAdd() {
+  //DB
+  const DB = process.env.REACT_APP_DB;
   //네비게이트
   const navigate = useNavigate();
   //Quill Ref로 dom 직접관여
@@ -54,6 +56,8 @@ export default function PostAdd() {
   };
   const [backImage, setBackImage] = useState("");
   //게시글 등록
+
+  const [id, setId] = useState();
   //제목
   const [title, setTitle] = useState("");
   const handleTitleChange = (event) => {
@@ -77,9 +81,9 @@ export default function PostAdd() {
   const token = Cookies.get("accessToken");
 
   //게시글 등록 함수
-  const handlePost = () => {
+  const handlePost = async () => {
     const data = {
-      id: uuidv4(),
+      id: id,
       title: title,
       category: category,
       titleImg: titleImage,
@@ -104,21 +108,30 @@ export default function PostAdd() {
         return;
       }
     }
-    axios
-      .post("http://main-page-admin.pango-gy.com/notice", data, {
-        headers: {
-          access_token: token,
-        },
-      })
-      .then((response) => {
-        alert("글 등록 성공");
-        //글작성후 상세페이지로 이동
-        navigate(`/postdetail/${data.id}`);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("글 등록 실패");
-      });
+    try {
+      const response = await axios.post(
+        // "http://main-page-admin.pango-gy.com/notice",
+        DB,
+        data,
+        {
+          headers: {
+            access_token: token,
+          },
+        }
+      );
+
+      const getresponse = await axios.get(
+        // `http://main-page-admin.pango-gy.com/notice`
+        DB
+      );
+
+      alert("글 등록 성공");
+      //작성한 글의 아이디로 이동
+      navigate(`/postdetail/${getresponse.data[0].id}`);
+    } catch (error) {
+      console.error(error);
+      alert("글 등록 실패");
+    }
   };
 
   // base64 >> Quill Img Url 로 변경하는 onChange

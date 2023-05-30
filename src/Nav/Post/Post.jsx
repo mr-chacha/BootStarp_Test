@@ -10,6 +10,9 @@ import ImportantPostbox from "./ImportantPost";
 import Cookies from "js-cookie";
 
 export default function Post() {
+  //DB
+  const DB = process.env.REACT_APP_DB;
+
   // Pagination
   const [page, setPage] = useState(1);
   const [items, setItems] = useState(10);
@@ -20,17 +23,16 @@ export default function Post() {
   // 글 조회하는 함수들
   // DB에서 데이터 가져오기
   const [post, setPost] = useState();
-  const handleGet = () => {
-    axios
-      .get("http://main-page-admin.pango-gy.com/notice") // 서버주소
-      .then((response) => {
-        //카테고리가 팡고소식인거만 모아줌
-        setPost(response.data.filter((post) => post?.category === "공지사항"));
-      })
-      .catch((error) => {
-        console.error(error);
-        // 오류 처리
-      });
+  const handleGet = async () => {
+    try {
+      const response = await axios.get(DB); // 서버주소
+
+      //카테고리가 팡고소식인거만 모아줌
+      console.log(response);
+      setPost(response.data.filter((post) => post?.category === "공지사항"));
+    } catch (error) {
+      console.error(error);
+    }
   };
   //
 
@@ -105,13 +107,9 @@ export default function Post() {
         {post
           ?.slice(items * (page - 1), items * (page - 1) + items)
           .map((item, index) => {
-            return (
-              <Postbox
-                item={item}
-                key={item.id}
-                index={(page - 1) * 10 + index + 1}
-              />
-            );
+            //인덱스 번호 거꾸로
+            const reversedIndex = post.length - items * (page - 1) - index;
+            return <Postbox item={item} key={item.id} index={reversedIndex} />;
           })}
 
         <CommunityFooter>
